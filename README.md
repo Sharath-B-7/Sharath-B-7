@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/hero.svg" alt="Sharath B - Cybersecurity & AI Developer" width="100%" />
+  <img src="./assets/hero.svg?v=2" alt="Sharath B - Cybersecurity & AI Developer" width="100%" />
 </p>
 
 <p align="center">
