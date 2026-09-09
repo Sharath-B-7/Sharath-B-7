@@ -25,7 +25,7 @@ I am a **B.E. Computer Science and Engineering (Cyber Security)** student at **C
 
 My primary focus revolves around **Cybersecurity**, **Artificial Intelligence**, **Software Engineering**, and **Algorithmic Problem Solving**. I am passionate about analyzing security mechanisms, analyzing malware behaviors, and building intelligent, real-time software systems such as fraud intelligence tools and explainable learning platforms.
 
-With a strong foundation in Data Structures and Algorithms (**432 LeetCode problems solved**), I continuously hone my analytical skills while developing practical, production-ready applications. I am actively seeking **internship opportunities** and **real-world project collaborations** where I can apply my security insights, programming expertise, and problem-solving mindset.
+With a strong foundation in Data Structures and Algorithms, I continuously hone my analytical skills while developing practical, production-ready applications. I am actively seeking **internship opportunities** and **real-world project collaborations** where I can apply my security insights, programming expertise, and problem-solving mindset.
 
 <br />
 
@@ -36,11 +36,10 @@ With a strong foundation in Data Structures and Algorithms (**432 LeetCode probl
 ### 📌 Professional Highlights
 
 * 🎓 **Education:** B.E. CSE (Cyber Security) @ **Chennai Institute of Technology** *(2025 – 2029)*
-* 📚 **Academic Performance:** Class 12 — **97%** | Class 10 — **98%**
-* 🧠 **Problem Solving:** **432** LeetCode Problems Solved
+* 📚 **Academic Performance:** Current CGPA — **8.5** | Class 12 — **97%** | Class 10 — **98%**
 * 🛡️ **Primary Focus:** Cybersecurity & Threat Analysis
 * 🤖 **Technical Interests:** Artificial Intelligence, ML & Software Engineering
-* 🎯 **Career Objective:** Seeking internship & project opportunities to contribute to real-world security and software solutions.
+* 🎯 **Career Objective:** Seeking internship & project opportunities to contribute to real-world solutions.
 
     </td>
     <td width="50%" valign="top">

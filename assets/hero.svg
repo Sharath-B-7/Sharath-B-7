@@ -2,15 +2,55 @@
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml">
       <style>
-        @keyframes rotateText {
-          0%, 12% { content: "Cybersecurity Engineer"; }
-          14%, 26% { content: "AI &amp; ML Developer"; }
-          28%, 40% { content: "Full-Stack Developer"; }
-          42%, 54% { content: "Security-Focused Developer"; }
-          56%, 68% { content: "Problem Solver"; }
-          70%, 82% { content: "Software Developer"; }
-          84%, 96% { content: "Building Secure Systems"; }
-          98%, 100% { content: "Cybersecurity Engineer"; }
+        @keyframes typewriter {
+          /* Title 1: Cybersecurity Engineer (22ch) */
+          0%       { content: "Cybersecurity Engineer"; width: 0ch; }
+          2.5%     { content: "Cybersecurity Engineer"; width: 22ch; }
+          11.5%    { content: "Cybersecurity Engineer"; width: 22ch; }
+          13.8%    { content: "Cybersecurity Engineer"; width: 0ch; }
+          14.28%   { content: ""; width: 0ch; }
+
+          /* Title 2: AI &amp; ML Developer (17ch) */
+          14.29%   { content: "AI &amp; ML Developer"; width: 0ch; }
+          16.8%    { content: "AI &amp; ML Developer"; width: 17ch; }
+          25.8%    { content: "AI &amp; ML Developer"; width: 17ch; }
+          28.1%    { content: "AI &amp; ML Developer"; width: 0ch; }
+          28.56%   { content: ""; width: 0ch; }
+
+          /* Title 3: Full-Stack Developer (20ch) */
+          28.57%   { content: "Full-Stack Developer"; width: 0ch; }
+          31.1%    { content: "Full-Stack Developer"; width: 20ch; }
+          40.1%    { content: "Full-Stack Developer"; width: 20ch; }
+          42.4%    { content: "Full-Stack Developer"; width: 0ch; }
+          42.84%   { content: ""; width: 0ch; }
+
+          /* Title 4: Security-Focused Developer (26ch) */
+          42.85%   { content: "Security-Focused Developer"; width: 0ch; }
+          45.4%    { content: "Security-Focused Developer"; width: 26ch; }
+          54.4%    { content: "Security-Focused Developer"; width: 26ch; }
+          56.7%    { content: "Security-Focused Developer"; width: 0ch; }
+          57.12%   { content: ""; width: 0ch; }
+
+          /* Title 5: Problem Solver (14ch) */
+          57.13%   { content: "Problem Solver"; width: 0ch; }
+          59.6%    { content: "Problem Solver"; width: 14ch; }
+          68.6%    { content: "Problem Solver"; width: 14ch; }
+          70.9%    { content: "Problem Solver"; width: 0ch; }
+          71.40%   { content: ""; width: 0ch; }
+
+          /* Title 6: Software Developer (18ch) */
+          71.41%   { content: "Software Developer"; width: 0ch; }
+          73.9%    { content: "Software Developer"; width: 18ch; }
+          82.9%    { content: "Software Developer"; width: 18ch; }
+          85.2%    { content: "Software Developer"; width: 0ch; }
+          85.68%   { content: ""; width: 0ch; }
+
+          /* Title 7: Building Secure Systems (22ch) */
+          85.69%   { content: "Building Secure Systems"; width: 0ch; }
+          88.2%    { content: "Building Secure Systems"; width: 22ch; }
+          97.2%    { content: "Building Secure Systems"; width: 22ch; }
+          99.5%    { content: "Building Secure Systems"; width: 0ch; }
+          100%     { content: ""; width: 0ch; }
         }
 
         @keyframes blink {
@@ -120,8 +160,12 @@
         }
 
         .animated-text::after {
-          content: "Cybersecurity Engineer";
-          animation: rotateText 21s infinite ease-in-out;
+          content: "";
+          display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          vertical-align: bottom;
+          animation: typewriter 32s infinite linear;
           color: #38bdf8;
           text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
         }
@@ -131,29 +175,30 @@
           width: 10px;
           height: 22px;
           background-color: #38bdf8;
-          margin-left: 6px;
-          animation: blink 1s infinite;
-          vertical-align: middle;
+          margin-left: 4px;
+          animation: blink 0.8s infinite;
+          vertical-align: text-bottom;
           border-radius: 1px;
         }
 
         .tag-container {
           display: flex;
-          gap: 10px;
+          gap: 12px;
           flex-wrap: wrap;
+          align-items: center;
         }
 
         .tag {
           background: rgba(30, 41, 59, 0.8);
           border: 1px solid rgba(56, 189, 248, 0.25);
           color: #e2e8f0;
-          padding: 6px 14px;
+          padding: 6px 16px;
           border-radius: 20px;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 500;
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
@@ -195,13 +240,10 @@
             <span>🛡️</span> Cyber Security Student
           </div>
           <div class="tag">
-            <span>🎓</span> Chennai Institute of Technology
+            <span>🤖</span> AI &amp; Software Dev
           </div>
           <div class="tag tag-purple">
-            <span>🧠</span> 432 LeetCode Solved
-          </div>
-          <div class="tag">
-            <span>🤖</span> AI &amp; Software Dev
+            <span>🧩</span> Problem Solver
           </div>
         </div>
       </div>
