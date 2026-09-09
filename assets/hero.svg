@@ -1,0 +1,210 @@
+<svg fill="none" viewBox="0 0 850 340" width="850" height="340" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        @keyframes rotateText {
+          0%, 12% { content: "Cybersecurity Engineer"; }
+          14%, 26% { content: "AI &amp; ML Developer"; }
+          28%, 40% { content: "Full-Stack Developer"; }
+          42%, 54% { content: "Security-Focused Developer"; }
+          56%, 68% { content: "Problem Solver"; }
+          70%, 82% { content: "Software Developer"; }
+          84%, 96% { content: "Building Secure Systems"; }
+          98%, 100% { content: "Cybersecurity Engineer"; }
+        }
+
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+
+        @keyframes pulseGlow {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .container {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background: linear-gradient(135deg, #090d16 0%, #0d1117 50%, #111827 100%);
+          border: 1px solid #233044;
+          border-radius: 16px;
+          padding: 32px 40px;
+          box-sizing: border-box;
+          width: 850px;
+          height: 340px;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Ambient Glow Effect */
+        .glow-cyan {
+          position: absolute;
+          top: -60px;
+          right: -60px;
+          width: 250px;
+          height: 250px;
+          background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+          border-radius: 50%;
+          animation: pulseGlow 6s infinite ease-in-out;
+        }
+
+        .glow-purple {
+          position: absolute;
+          bottom: -80px;
+          left: -40px;
+          width: 300px;
+          height: 300px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+          border-radius: 50%;
+          animation: pulseGlow 8s infinite ease-in-out reverse;
+        }
+
+        /* Top terminal dots */
+        .terminal-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 24px;
+        }
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .terminal-title {
+          margin-left: 12px;
+          font-family: 'Fira Code', monospace, sans-serif;
+          font-size: 13px;
+          color: #6b7280;
+          letter-spacing: 0.5px;
+        }
+
+        .greeting {
+          font-size: 14px;
+          font-weight: 600;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #38bdf8;
+          margin-bottom: 6px;
+        }
+
+        .name {
+          font-size: 38px;
+          font-weight: 800;
+          color: #ffffff;
+          letter-spacing: -0.5px;
+          margin-bottom: 12px;
+          background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .role-wrapper {
+          display: flex;
+          align-items: center;
+          font-size: 22px;
+          font-weight: 600;
+          color: #a78bfa;
+          height: 36px;
+          margin-bottom: 22px;
+          font-family: 'Fira Code', Consolas, monospace;
+        }
+
+        .role-prefix {
+          color: #38bdf8;
+          margin-right: 10px;
+        }
+
+        .animated-text::after {
+          content: "Cybersecurity Engineer";
+          animation: rotateText 21s infinite ease-in-out;
+          color: #38bdf8;
+          text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+        }
+
+        .cursor {
+          display: inline-block;
+          width: 10px;
+          height: 22px;
+          background-color: #38bdf8;
+          margin-left: 6px;
+          animation: blink 1s infinite;
+          vertical-align: middle;
+          border-radius: 1px;
+        }
+
+        .tag-container {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .tag {
+          background: rgba(30, 41, 59, 0.8);
+          border: 1px solid rgba(56, 189, 248, 0.25);
+          color: #e2e8f0;
+          padding: 6px 14px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .tag-accent {
+          background: rgba(56, 189, 248, 0.12);
+          border-color: rgba(56, 189, 248, 0.4);
+          color: #38bdf8;
+        }
+
+        .tag-purple {
+          background: rgba(139, 92, 246, 0.12);
+          border-color: rgba(139, 92, 246, 0.4);
+          color: #c084fc;
+        }
+      </style>
+
+      <div class="container">
+        <div class="glow-cyan"></div>
+        <div class="glow-purple"></div>
+
+        <div class="terminal-header">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+          <span class="terminal-title">sharath-b-7 ~/profile</span>
+        </div>
+
+        <div class="greeting">WELCOME TO MY PROFILE</div>
+        <div class="name">Hi, I'm Sharath B</div>
+
+        <div class="role-wrapper">
+          <span class="role-prefix">&gt;</span>
+          <span class="animated-text"></span>
+          <span class="cursor"></span>
+        </div>
+
+        <div class="tag-container">
+          <div class="tag tag-accent">
+            <span>🛡️</span> Cyber Security Student
+          </div>
+          <div class="tag">
+            <span>🎓</span> Chennai Institute of Technology
+          </div>
+          <div class="tag tag-purple">
+            <span>🧠</span> 432 LeetCode Solved
+          </div>
+          <div class="tag">
+            <span>🤖</span> AI &amp; Software Dev
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>

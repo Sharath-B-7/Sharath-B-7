@@ -1,0 +1,261 @@
+<svg fill="none" viewBox="0 0 850 340" width="850" height="340" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        .lc-card {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+          border: 1px solid #30363d;
+          border-radius: 16px;
+          padding: 24px 32px;
+          box-sizing: border-box;
+          width: 850px;
+          height: 340px;
+          color: #c9d1d9;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .lc-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          border-bottom: 1px solid #21262d;
+          padding-bottom: 12px;
+        }
+
+        .lc-title {
+          font-size: 20px;
+          font-weight: 700;
+          color: #f0883e;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .lc-user {
+          font-size: 14px;
+          color: #8b949e;
+          font-family: 'Fira Code', monospace;
+          background: #21262d;
+          padding: 4px 12px;
+          border-radius: 20px;
+          border: 1px solid #30363d;
+        }
+
+        .lc-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr 1.1fr;
+          gap: 24px;
+          height: 230px;
+        }
+
+        .lc-col {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .stat-box {
+          background: rgba(22, 27, 34, 0.8);
+          border: 1px solid #30363d;
+          border-radius: 12px;
+          padding: 14px 16px;
+        }
+
+        .diff-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+          font-size: 13px;
+        }
+
+        .diff-easy { color: #2ecc71; font-weight: 600; }
+        .diff-medium { color: #f1c40f; font-weight: 600; }
+        .diff-hard { color: #e74c3c; font-weight: 600; }
+
+        .progress-bar {
+          height: 6px;
+          background: #21262d;
+          border-radius: 3px;
+          overflow: hidden;
+        }
+
+        .progress-fill-easy { width: 28%; background: #2ecc71; height: 100%; }
+        .progress-fill-medium { width: 7%; background: #f1c40f; height: 100%; }
+        .progress-fill-hard { width: 1.3%; background: #e74c3c; height: 100%; }
+
+        .total-solved {
+          text-align: center;
+          background: rgba(240, 136, 62, 0.08);
+          border: 1px solid rgba(240, 136, 62, 0.3);
+          border-radius: 12px;
+          padding: 16px;
+        }
+
+        .total-num {
+          font-size: 36px;
+          font-weight: 800;
+          color: #f0883e;
+          line-height: 1;
+        }
+
+        .total-label {
+          font-size: 12px;
+          color: #8b949e;
+          margin-top: 4px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .metric-row {
+          display: flex;
+          justify-content: space-between;
+          font-size: 13px;
+          padding: 6px 0;
+          border-bottom: 1px dashed #21262d;
+        }
+
+        .metric-row:last-child {
+          border-bottom: none;
+        }
+
+        .metric-label { color: #8b949e; }
+        .metric-val { color: #f0f6fc; font-weight: 600; font-family: 'Fira Code', monospace; }
+
+        .badge-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(56, 189, 248, 0.1);
+          color: #38bdf8;
+          border: 1px solid rgba(56, 189, 248, 0.3);
+          padding: 4px 10px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .lang-tag {
+          font-size: 12px;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 6px;
+        }
+
+        .lang-name { color: #c9d1d9; font-weight: 500; }
+        .lang-count { color: #38bdf8; font-weight: 600; font-family: 'Fira Code', monospace; }
+      </style>
+
+      <div class="lc-card">
+        <div class="lc-header">
+          <div class="lc-title">
+            <span>🧠</span> LEETCODE STATISTICS
+          </div>
+          <div class="lc-user">@Sharathbcs</div>
+        </div>
+
+        <div class="lc-grid">
+          <!-- Col 1: Solved & Difficulty -->
+          <div class="lc-col">
+            <div class="total-solved">
+              <div class="total-num">432</div>
+              <div class="total-label">Problems Solved</div>
+            </div>
+
+            <div class="stat-box" style="flex: 1;">
+              <div class="diff-row">
+                <span class="diff-easy">🟢 Easy</span>
+                <span><strong>270</strong> / 963</span>
+              </div>
+              <div class="progress-bar" style="margin-bottom: 10px;">
+                <div class="progress-fill-easy"></div>
+              </div>
+
+              <div class="diff-row">
+                <span class="diff-medium">🟡 Medium</span>
+                <span><strong>149</strong> / 2,111</span>
+              </div>
+              <div class="progress-bar" style="margin-bottom: 10px;">
+                <div class="progress-fill-medium"></div>
+              </div>
+
+              <div class="diff-row">
+                <span class="diff-hard">🔴 Hard</span>
+                <span><strong>13</strong> / 973</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill-hard"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 2: Rating & Rank -->
+          <div class="lc-col">
+            <div class="stat-box" style="height: 100%; display: flex; flex-direction: column; justify-content: space-around;">
+              <div class="metric-row">
+                <span class="metric-label">📈 Contest Rating</span>
+                <span class="metric-val" style="color: #f0883e;">1,617</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">🏆 Global Rank</span>
+                <span class="metric-val">279,851</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">🎯 Top Percentile</span>
+                <span class="metric-val" style="color: #2ecc71;">Top 22.12%</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">🏁 Contests</span>
+                <span class="metric-val">41</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">🏅 Badges</span>
+                <span class="metric-val">2 Badges</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 3: Streak & Languages -->
+          <div class="lc-col">
+            <div class="stat-box">
+              <div class="metric-row">
+                <span class="metric-label">🔥 Max Streak</span>
+                <span class="metric-val" style="color: #ff5f56;">55 Days</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">📅 Active Days</span>
+                <span class="metric-val">214 Days</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">📊 Past Year</span>
+                <span class="metric-val">812 Subs</span>
+              </div>
+            </div>
+
+            <div class="stat-box" style="flex: 1;">
+              <div style="font-size: 12px; font-weight: 700; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">
+                Languages Used
+              </div>
+              <div class="lang-tag">
+                <span class="lang-name">C++</span>
+                <span class="lang-count">269 solved</span>
+              </div>
+              <div class="lang-tag">
+                <span class="lang-name">Python3</span>
+                <span class="lang-count">169 solved</span>
+              </div>
+              <div class="lang-tag">
+                <span class="lang-name">Python</span>
+                <span class="lang-count">66 solved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>
