@@ -84,8 +84,8 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 28%; background: #2ecc71; height: 100%; }
-        .progress-fill-medium { width: 7%; background: #f1c40f; height: 100%; }
+        .progress-fill-easy { width: 28.1%; background: #2ecc71; height: 100%; }
+        .progress-fill-medium { width: 7.1%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.3%; background: #e74c3c; height: 100%; }
 
         .total-solved {
@@ -126,19 +126,6 @@
         .metric-label { color: #8b949e; }
         .metric-val { color: #f0f6fc; font-weight: 600; font-family: 'Fira Code', monospace; }
 
-        .badge-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(56, 189, 248, 0.1);
-          color: #38bdf8;
-          border: 1px solid rgba(56, 189, 248, 0.3);
-          padding: 4px 10px;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: 600;
-        }
-
         .lang-tag {
           font-size: 12px;
           display: flex;
@@ -162,14 +149,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">432</div>
+              <div class="total-num">434</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>270</strong> / 963</span>
+                <span><strong>271</strong> / 963</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -177,7 +164,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>149</strong> / 2,111</span>
+                <span><strong>150</strong> / 2,111</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -202,7 +189,7 @@
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">279,851</span>
+                <span class="metric-val">277,727</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>
@@ -242,11 +229,11 @@
               </div>
               <div class="lang-tag">
                 <span class="lang-name">C++</span>
-                <span class="lang-count">269 solved</span>
+                <span class="lang-count">271 solved</span>
               </div>
               <div class="lang-tag">
                 <span class="lang-name">Python3</span>
-                <span class="lang-count">169 solved</span>
+                <span class="lang-count">170 solved</span>
               </div>
               <div class="lang-tag">
                 <span class="lang-name">Python</span>
