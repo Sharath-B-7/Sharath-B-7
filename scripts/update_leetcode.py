@@ -36,15 +36,6 @@ query getUserProfile($username: String!) {
       id
       displayName
     }
-    userCalendar {
-      streak
-      totalActiveDays
-      submissionCalendar
-    }
-    languageProblemCount {
-      languageName
-      problemsSolved
-    }
   }
   userContestRanking(userSlug: $username) {
     attendedContestsCount
@@ -74,25 +65,19 @@ def fetch_leetcode_data(username):
 def parse_stats(data):
     # Default baseline fallbacks
     stats = {
-        "total_solved": 432,
+        "total_solved": 434,
         "total_questions": 4047,
-        "easy_solved": 270,
+        "easy_solved": 271,
         "easy_total": 963,
-        "medium_solved": 149,
+        "medium_solved": 150,
         "medium_total": 2111,
         "hard_solved": 13,
         "hard_total": 973,
         "contest_rating": "1,617",
-        "global_rank": "279,851",
+        "global_rank": "277,727",
         "top_percentile": "22.12%",
         "contests_attended": 41,
         "badge_count": 2,
-        "max_streak": 55,
-        "active_days": 214,
-        "submissions_year": 812,
-        "cpp_solved": 269,
-        "py3_solved": 169,
-        "py_solved": 66,
     }
 
     if not data:
@@ -133,32 +118,6 @@ def parse_stats(data):
         if badges is not None:
             stats["badge_count"] = len(badges)
 
-        # Calendar
-        calendar = matched.get("userCalendar", {})
-        if calendar:
-            stats["max_streak"] = calendar.get("streak", stats["max_streak"])
-            stats["active_days"] = calendar.get("totalActiveDays", stats["active_days"])
-            sub_cal_str = calendar.get("submissionCalendar", "{}")
-            try:
-                sub_cal = json.loads(sub_cal_str)
-                total_subs = sum(sub_cal.values())
-                if total_subs > 0:
-                    stats["submissions_year"] = total_subs
-            except Exception:
-                pass
-
-        # Languages
-        lang_counts = matched.get("languageProblemCount", [])
-        for lang in lang_counts:
-            lname = lang.get("languageName")
-            lsol = lang.get("problemsSolved", 0)
-            if lname == "cpp" or lname == "C++":
-                stats["cpp_solved"] = lsol
-            elif lname == "python3" or lname == "Python3":
-                stats["py3_solved"] = lsol
-            elif lname == "python" or lname == "Python":
-                stats["py_solved"] = lsol
-
     # Parse Contest Info
     contest = data.get("userContestRanking")
     if contest:
@@ -185,7 +144,7 @@ def generate_svg(stats):
     med_pct = round((stats["medium_solved"] / max(1, stats["medium_total"])) * 100, 1)
     hard_pct = round((stats["hard_solved"] / max(1, stats["hard_total"])) * 100, 1)
 
-    svg_content = f"""<svg fill="none" viewBox="0 0 850 340" width="850" height="340" xmlns="http://www.w3.org/2000/svg">
+    svg_content = f"""<svg fill="none" viewBox="0 0 850 300" width="850" height="300" xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml">
       <style>
@@ -194,10 +153,10 @@ def generate_svg(stats):
           background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
           border: 1px solid #30363d;
           border-radius: 16px;
-          padding: 24px 32px;
+          padding: 24px 36px;
           box-sizing: border-box;
           width: 850px;
-          height: 340px;
+          height: 300px;
           color: #c9d1d9;
           position: relative;
           overflow: hidden;
@@ -234,9 +193,9 @@ def generate_svg(stats):
 
         .lc-grid {{
           display: grid;
-          grid-template-columns: 1.2fr 1fr 1.1fr;
-          gap: 24px;
-          height: 230px;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+          height: 195px;
         }}
 
         .lc-col {{
@@ -249,7 +208,7 @@ def generate_svg(stats):
           background: rgba(22, 27, 34, 0.8);
           border: 1px solid #30363d;
           border-radius: 12px;
-          padding: 14px 16px;
+          padding: 14px 18px;
         }}
 
         .diff-row {{
@@ -280,11 +239,11 @@ def generate_svg(stats):
           background: rgba(240, 136, 62, 0.08);
           border: 1px solid rgba(240, 136, 62, 0.3);
           border-radius: 12px;
-          padding: 16px;
+          padding: 14px;
         }}
 
         .total-num {{
-          font-size: 36px;
+          font-size: 34px;
           font-weight: 800;
           color: #f0883e;
           line-height: 1;
@@ -302,7 +261,7 @@ def generate_svg(stats):
           display: flex;
           justify-content: space-between;
           font-size: 13px;
-          padding: 6px 0;
+          padding: 7px 0;
           border-bottom: 1px dashed #21262d;
         }}
 
@@ -312,16 +271,6 @@ def generate_svg(stats):
 
         .metric-label {{ color: #8b949e; }}
         .metric-val {{ color: #f0f6fc; font-weight: 600; font-family: 'Fira Code', monospace; }}
-
-        .lang-tag {{
-          font-size: 12px;
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 6px;
-        }}
-
-        .lang-name {{ color: #c9d1d9; font-weight: 500; }}
-        .lang-count {{ color: #38bdf8; font-weight: 600; font-family: 'Fira Code', monospace; }}
       </style>
 
       <div class="lc-card">
@@ -340,7 +289,7 @@ def generate_svg(stats):
               <div class="total-label">Problems Solved</div>
             </div>
 
-            <div class="stat-box" style="flex: 1;">
+            <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
                 <span><strong>{stats["easy_solved"]}</strong> / {stats["easy_total"]:,}</span>
@@ -384,47 +333,11 @@ def generate_svg(stats):
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏁 Contests</span>
-                <span class="metric-val">{stats["contests_attended"]}</span>
+                <span class="metric-val">{stats["contests_attended"]} Contests</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏅 Badges</span>
                 <span class="metric-val">{stats["badge_count"]} Badges</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Col 3: Streak & Languages -->
-          <div class="lc-col">
-            <div class="stat-box">
-              <div class="metric-row">
-                <span class="metric-label">🔥 Max Streak</span>
-                <span class="metric-val" style="color: #ff5f56;">{stats["max_streak"]} Days</span>
-              </div>
-              <div class="metric-row">
-                <span class="metric-label">📅 Active Days</span>
-                <span class="metric-val">{stats["active_days"]} Days</span>
-              </div>
-              <div class="metric-row">
-                <span class="metric-label">📊 Past Year</span>
-                <span class="metric-val">{stats["submissions_year"]} Subs</span>
-              </div>
-            </div>
-
-            <div class="stat-box" style="flex: 1;">
-              <div style="font-size: 12px; font-weight: 700; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">
-                Languages Used
-              </div>
-              <div class="lang-tag">
-                <span class="lang-name">C++</span>
-                <span class="lang-count">{stats["cpp_solved"]} solved</span>
-              </div>
-              <div class="lang-tag">
-                <span class="lang-name">Python3</span>
-                <span class="lang-count">{stats["py3_solved"]} solved</span>
-              </div>
-              <div class="lang-tag">
-                <span class="lang-name">Python</span>
-                <span class="lang-count">{stats["py_solved"]} solved</span>
               </div>
             </div>
           </div>
@@ -457,8 +370,6 @@ def update_readme_table(readme_path, stats):
         new_table_rows = f"""| 🏆 **Global Rank** | **{stats["global_rank"]}** | Top **{stats["top_percentile"]}** worldwide |
 | 📈 **Contest Rating** | **{stats["contest_rating"]}** | **{stats["contests_attended"]}** Contests Attended |
 | 💻 **Total Problems Solved** | **{stats["total_solved"]} / {stats["total_questions"]:,}** | 🟢 **{stats["easy_solved"]}** Easy \\| 🟡 **{stats["medium_solved"]}** Medium \\| 🔴 **{stats["hard_solved"]}** Hard |
-| 🔥 **Maximum Streak** | **{stats["max_streak"]} Days** | **{stats["active_days"]}** Total Active Days \\| **{stats["submissions_year"]}** Past Year Submissions |
-| 💻 **Languages Used** | **C++ & Python** | **{stats["cpp_solved"]}** C++ \\| **{stats["py3_solved"]}** Python3 \\| **{stats["py_solved"]}** Python |
 | 🏅 **Badges** | **{stats["badge_count"]} Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |"""
 
         table_pattern = r"(\| Metric \| Verified Current Figure \| Detail Breakdown \|[\s\S]*?\| 🏅 \*\*Badges\*\* \|[\s\S]*?\n)"

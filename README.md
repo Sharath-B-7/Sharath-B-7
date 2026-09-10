@@ -128,8 +128,6 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 | 🏆 **Global Rank** | **277,727** | Top **22.12%** worldwide |
 | 📈 **Contest Rating** | **1,617** | **41** Contests Attended |
 | 💻 **Total Problems Solved** | **434 / 4,047** | 🟢 **271** Easy \| 🟡 **150** Medium \| 🔴 **13** Hard |
-| 🔥 **Maximum Streak** | **55 Days** | **214** Total Active Days \| **812** Past Year Submissions |
-| 💻 **Languages Used** | **C++ & Python** | **271** C++ \| **170** Python3 \| **66** Python |
 | 🏅 **Badges** | **2 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
