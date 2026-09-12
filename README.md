@@ -135,17 +135,13 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 📊 GitHub Activity & Analytics
 
 <p align="center">
-  <img src="https://img.shields.io/github/followers/Sharath-B-7?label=Followers&style=for-the-badge&logo=github&color=38bdf8&labelColor=0d1117" />
-  &nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/Public_Repos-4-38bdf8?style=for-the-badge&logo=github&labelColor=0d1117" />
-  &nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/LeetCode_Solved-435-FFA116?style=for-the-badge&logo=leetcode&labelColor=0d1117" />
+  <img src="https://github-profile-trophy.vercel.app/?username=Sharath-B-7&theme=tokyonight&column=6&margin-w=15&no-bg=true" alt="Sharath B GitHub Trophies" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Primary_Languages-C++%20%7C%20Python%20%7C%20TypeScript-0D1117?style=for-the-badge&logo=codeforces&logoColor=38bdf8" />
+  <img src="https://github-readme-stats.vercel.app/api?username=Sharath-B-7&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=38bdf8&icon_color=38bdf8" alt="Sharath B GitHub Stats" height="175" />
   &nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/Focus-Cybersecurity%20%26%20AI-0D1117?style=for-the-badge&logo=shield&logoColor=38bdf8" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sharath-B-7&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=38bdf8" alt="Top Languages" height="175" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
