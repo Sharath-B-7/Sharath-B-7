@@ -65,18 +65,18 @@ def fetch_leetcode_data(username):
 def parse_stats(data):
     # Default baseline fallbacks
     stats = {
-        "total_solved": 434,
+        "total_solved": 435,
         "total_questions": 4047,
-        "easy_solved": 271,
+        "easy_solved": 272,
         "easy_total": 963,
         "medium_solved": 150,
         "medium_total": 2111,
         "hard_solved": 13,
         "hard_total": 973,
-        "contest_rating": "1,617",
-        "global_rank": "277,727",
-        "top_percentile": "22.12%",
-        "contests_attended": 41,
+        "contest_rating": "1,626",
+        "global_rank": "275,608",
+        "top_percentile": "21.02%",
+        "contests_attended": 42,
         "badge_count": 2,
     }
 

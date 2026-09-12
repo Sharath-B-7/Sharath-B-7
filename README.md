@@ -69,7 +69,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 ## 🏆 Honors & Achievements
 
-* 🧠 **Competitive Programming:** Solved **434 LeetCode Problems** across C++, Python3, and Python.
+* 🧠 **Competitive Programming:** Solved **435 LeetCode Problems** across C++, Python3, and Python.
 * 🎓 **Academic Excellence:** Current CGPA — **8.5 / 10.0**
 * 📚 **School Board Examinations:** Class 12 — **97%** | Class 10 — **98%**
 
@@ -125,9 +125,9 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 | Metric | Verified Current Figure | Detail Breakdown |
 | :--- | :---: | :--- |
-| 🏆 **Global Rank** | **277,727** | Top **22.12%** worldwide |
-| 📈 **Contest Rating** | **1,617** | **41** Contests Attended |
-| 💻 **Total Problems Solved** | **434 / 4,047** | 🟢 **271** Easy \| 🟡 **150** Medium \| 🔴 **13** Hard |
+| 🏆 **Global Rank** | **275,608** | Top **21.02%** worldwide |
+| 📈 **Contest Rating** | **1,626** | **42** Contests Attended |
+| 💻 **Total Problems Solved** | **435 / 4,047** | 🟢 **272** Easy \| 🟡 **150** Medium \| 🔴 **13** Hard |
 | 🏅 **Badges** | **2 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
@@ -135,13 +135,13 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 📊 GitHub Activity & Analytics
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Sharath-B-7&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=38bdf8&icon_color=38bdf8" alt="Sharath B GitHub Stats" height="175" />
+  <img src="https://img.shields.io/github/followers/Sharath-B-7?label=Followers&style=for-the-badge&logo=github&color=0d1117&labelColor=161b22" />
   &nbsp;&nbsp;
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sharath-B-7&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=38bdf8" alt="Top Languages" height="175" />
+  <img src="https://img.shields.io/github/stars/Sharath-B-7?label=Total%20Stars&style=for-the-badge&logo=github&color=0d1117&labelColor=161b22" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Sharath-B-7&theme=tokyonight&hide_border=true&background=0d1117&stroke=38bdf8&sidebars=38bdf8" alt="GitHub Streak Stats" height="150" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Sharath-B-7&theme=react-dark&hide_border=true&area=true&bg_color=0d1117&color=38bdf8&line=38bdf8&point=ffffff" alt="Sharath B GitHub Activity Graph" width="100%" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
