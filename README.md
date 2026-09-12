@@ -135,13 +135,15 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 📊 GitHub Activity & Analytics
 
 <p align="center">
-  <img src="https://img.shields.io/github/followers/Sharath-B-7?label=Followers&style=for-the-badge&logo=github&color=0d1117&labelColor=161b22" />
+  <img src="https://img.shields.io/github/followers/Sharath-B-7?label=Followers&style=for-the-badge&logo=github&color=38bdf8&labelColor=0d1117" />
   &nbsp;&nbsp;
-  <img src="https://img.shields.io/github/stars/Sharath-B-7?label=Total%20Stars&style=for-the-badge&logo=github&color=0d1117&labelColor=161b22" />
+  <img src="https://img.shields.io/badge/Public_Repos-4-38bdf8?style=for-the-badge&logo=github&labelColor=0d1117" />
+  &nbsp;&nbsp;
+  <img src="https://img.shields.io/badge/LeetCode_Solved-435-FFA116?style=for-the-badge&logo=leetcode&labelColor=0d1117" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Sharath-B-7&theme=react-dark&hide_border=true&area=true&bg_color=0d1117&color=38bdf8&line=38bdf8&point=ffffff" alt="Sharath B GitHub Activity Graph" width="100%" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Sharath-B-7&theme=tokyo-night&hide_border=true" alt="Sharath B GitHub Activity Graph" width="100%" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
