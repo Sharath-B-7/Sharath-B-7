@@ -143,7 +143,9 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 </p>
 
 <p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Sharath-B-7&theme=tokyo-night&hide_border=true" alt="Sharath B GitHub Activity Graph" width="100%" />
+  <img src="https://img.shields.io/badge/Primary_Languages-C++%20%7C%20Python%20%7C%20TypeScript-0D1117?style=for-the-badge&logo=codeforces&logoColor=38bdf8" />
+  &nbsp;&nbsp;
+  <img src="https://img.shields.io/badge/Focus-Cybersecurity%20%26%20AI-0D1117?style=for-the-badge&logo=shield&logoColor=38bdf8" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
