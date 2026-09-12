@@ -112,7 +112,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 🧠 LeetCode & Competitive Programming
 
 <p align="center">
-  <img src="./assets/leetcode_stats.svg?v=1789206108" alt="Sharath B LeetCode Statistics" width="100%" />
+  <img src="./assets/leetcode_stats.svg?v=1789223414" alt="Sharath B LeetCode Statistics" width="100%" />
 </p>
 
 <p align="center">
