@@ -112,7 +112,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 🧠 LeetCode & Competitive Programming
 
 <p align="center">
-  <img src="./assets/leetcode_stats.svg?v=1789296191" alt="Sharath B LeetCode Statistics" width="100%" />
+  <img src="./assets/leetcode_stats.svg?v=1789312262" alt="Sharath B LeetCode Statistics" width="100%" />
 </p>
 
 <p align="center">
@@ -125,7 +125,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 | Metric | Verified Current Figure | Detail Breakdown |
 | :--- | :---: | :--- |
-| 🏆 **Global Rank** | **270,359** | Top **21.02%** worldwide |
+| 🏆 **Global Rank** | **274,623** | Top **21.02%** worldwide |
 | 📈 **Contest Rating** | **1,626** | **42** Contests Attended |
 | 💻 **Total Problems Solved** | **439 / 4,055** | 🟢 **274** Easy \| 🟡 **152** Medium \| 🔴 **13** Hard |
 | 🏅 **Badges** | **2 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
