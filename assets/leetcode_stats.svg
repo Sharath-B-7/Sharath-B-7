@@ -84,8 +84,8 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 28.2%; background: #2ecc71; height: 100%; }
-        .progress-fill-medium { width: 7.1%; background: #f1c40f; height: 100%; }
+        .progress-fill-easy { width: 28.4%; background: #2ecc71; height: 100%; }
+        .progress-fill-medium { width: 7.2%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.3%; background: #e74c3c; height: 100%; }
 
         .total-solved {
@@ -139,14 +139,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">435</div>
+              <div class="total-num">439</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>272</strong> / 963</span>
+                <span><strong>274</strong> / 965</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>150</strong> / 2,111</span>
+                <span><strong>152</strong> / 2,115</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -162,7 +162,7 @@
 
               <div class="diff-row">
                 <span class="diff-hard">🔴 Hard</span>
-                <span><strong>13</strong> / 973</span>
+                <span><strong>13</strong> / 975</span>
               </div>
               <div class="progress-bar">
                 <div class="progress-fill-hard"></div>
@@ -179,7 +179,7 @@
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">275,608</span>
+                <span class="metric-val">274,623</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>

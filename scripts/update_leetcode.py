@@ -6,6 +6,7 @@ import urllib.request
 
 LEETCODE_USERNAME = "Sharathbcs"
 GRAPHQL_URL = "https://leetcode.com/graphql"
+REST_API_URL = f"https://alfa-leetcode-api.onrender.com/userProfile/{LEETCODE_USERNAME}"
 
 headers = {
     "Content-Type": "application/json",
@@ -48,6 +49,7 @@ query getUserProfile($username: String!) {
 """
 
 def fetch_leetcode_data(username):
+    # Try official GraphQL API first
     payload = json.dumps({
         "query": graphql_query,
         "variables": {"username": username}
@@ -57,24 +59,39 @@ def fetch_leetcode_data(username):
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
             res = json.loads(resp.read().decode("utf-8"))
-            return res.get("data", {})
+            data = res.get("data", {})
+            if data and data.get("matchedUser"):
+                print("Successfully fetched live data via LeetCode GraphQL API.")
+                return data
     except Exception as e:
-        print(f"Error fetching data from LeetCode GraphQL: {e}", file=sys.stderr)
-        return None
+        print(f"GraphQL fetch attempt failed: {e}", file=sys.stderr)
+        
+    # Secondary REST API fallback
+    try:
+        req_rest = urllib.request.Request(REST_API_URL, headers={"User-Agent": headers["User-Agent"]})
+        with urllib.request.urlopen(req_rest, timeout=10) as resp:
+            res = json.loads(resp.read().decode("utf-8"))
+            if res:
+                print("Successfully fetched live data via REST API fallback.")
+                return res
+    except Exception as e:
+        print(f"REST API fallback attempt failed: {e}", file=sys.stderr)
+
+    return None
 
 def parse_stats(data):
-    # Default baseline fallbacks
+    # Default baseline fallbacks (Updated live profile figures)
     stats = {
-        "total_solved": 435,
-        "total_questions": 4047,
-        "easy_solved": 272,
-        "easy_total": 963,
-        "medium_solved": 150,
-        "medium_total": 2111,
+        "total_solved": 439,
+        "total_questions": 4055,
+        "easy_solved": 274,
+        "easy_total": 965,
+        "medium_solved": 152,
+        "medium_total": 2115,
         "hard_solved": 13,
-        "hard_total": 973,
+        "hard_total": 975,
         "contest_rating": "1,626",
-        "global_rank": "275,608",
+        "global_rank": "274,623",
         "top_percentile": "21.02%",
         "contests_attended": 42,
         "badge_count": 2,
@@ -83,59 +100,66 @@ def parse_stats(data):
     if not data:
         return stats
 
-    # Parse Question Counts
-    all_q = data.get("allQuestionsCount", [])
-    for q in all_q:
-        diff = q.get("difficulty")
-        cnt = q.get("count", 0)
-        if diff == "All":
-            stats["total_questions"] = cnt
-        elif diff == "Easy":
-            stats["easy_total"] = cnt
-        elif diff == "Medium":
-            stats["medium_total"] = cnt
-        elif diff == "Hard":
-            stats["hard_total"] = cnt
-
-    # Parse Matched User Stats
-    matched = data.get("matchedUser")
-    if matched:
-        submit_stats = matched.get("submitStats", {}).get("acSubmissionNum", [])
-        for sub in submit_stats:
-            diff = sub.get("difficulty")
-            cnt = sub.get("count", 0)
+    # Handles GraphQL schema
+    if "allQuestionsCount" in data:
+        all_q = data.get("allQuestionsCount", [])
+        for q in all_q:
+            diff = q.get("difficulty")
+            cnt = q.get("count", 0)
             if diff == "All":
-                stats["total_solved"] = cnt
+                stats["total_questions"] = cnt
             elif diff == "Easy":
-                stats["easy_solved"] = cnt
+                stats["easy_total"] = cnt
             elif diff == "Medium":
-                stats["medium_solved"] = cnt
+                stats["medium_total"] = cnt
             elif diff == "Hard":
-                stats["hard_solved"] = cnt
+                stats["hard_total"] = cnt
 
-        # Badges
-        badges = matched.get("badges", [])
-        if badges is not None:
-            stats["badge_count"] = len(badges)
+        matched = data.get("matchedUser")
+        if matched:
+            submit_stats = matched.get("submitStats", {}).get("acSubmissionNum", [])
+            for sub in submit_stats:
+                diff = sub.get("difficulty")
+                cnt = sub.get("count", 0)
+                if diff == "All":
+                    stats["total_solved"] = cnt
+                elif diff == "Easy":
+                    stats["easy_solved"] = cnt
+                elif diff == "Medium":
+                    stats["medium_solved"] = cnt
+                elif diff == "Hard":
+                    stats["hard_solved"] = cnt
 
-    # Parse Contest Info
-    contest = data.get("userContestRanking")
-    if contest:
-        c_rating = contest.get("rating")
-        if c_rating:
-            stats["contest_rating"] = f"{int(round(c_rating)):,}"
-        
-        g_rank = contest.get("globalRanking")
-        if g_rank:
-            stats["global_rank"] = f"{g_rank:,}"
+            badges = matched.get("badges", [])
+            if badges is not None:
+                stats["badge_count"] = len(badges)
+
+            p_rank = matched.get("profile", {}).get("ranking")
+            if p_rank:
+                stats["global_rank"] = f"{p_rank:,}"
+
+        contest = data.get("userContestRanking")
+        if contest:
+            c_rating = contest.get("rating")
+            if c_rating:
+                stats["contest_rating"] = f"{int(round(c_rating)):,}"
             
-        top_pct = contest.get("topPercentage")
-        if top_pct:
-            stats["top_percentile"] = f"{top_pct:.2f}%"
+            top_pct = contest.get("topPercentage")
+            if top_pct:
+                stats["top_percentile"] = f"{top_pct:.2f}%"
 
-        c_att = contest.get("attendedContestsCount")
-        if c_att is not None:
-            stats["contests_attended"] = c_att
+            c_att = contest.get("attendedContestsCount")
+            if c_att is not None:
+                stats["contests_attended"] = c_att
+
+    # Handles REST schema fallback
+    elif "totalSolved" in data:
+        stats["total_solved"] = data.get("totalSolved", stats["total_solved"])
+        stats["easy_solved"] = data.get("easySolved", stats["easy_solved"])
+        stats["medium_solved"] = data.get("mediumSolved", stats["medium_solved"])
+        stats["hard_solved"] = data.get("hardSolved", stats["hard_solved"])
+        if "ranking" in data:
+            stats["global_rank"] = f"{data['ranking']:,}"
 
     return stats
 
