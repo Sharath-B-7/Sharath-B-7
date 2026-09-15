@@ -98,16 +98,16 @@ def fetch_github_data(username):
 def parse_stats(data):
     # Default baseline fallbacks (Updated live profile figures)
     stats = {
-        "total_solved": 439,
+        "total_solved": 443,
         "total_questions": 4055,
-        "easy_solved": 274,
+        "easy_solved": 275,
         "easy_total": 965,
-        "medium_solved": 152,
+        "medium_solved": 155,
         "medium_total": 2115,
         "hard_solved": 13,
         "hard_total": 975,
         "contest_rating": "1,626",
-        "global_rank": "274,623",
+        "global_rank": "268,354",
         "top_percentile": "21.02%",
         "contests_attended": 42,
         "badge_count": 2,
@@ -388,8 +388,145 @@ def generate_svg(stats):
 </svg>"""
     return svg_content
 
-def generate_github_svg(gh_stats, leetcode_solved):
-    svg_content = f"""<svg fill="none" viewBox="0 0 850 220" width="850" height="220" xmlns="http://www.w3.org/2000/svg">
+def fetch_github_activity(username):
+    import datetime
+    url = f"https://github.com/users/{username}/contributions"
+    req = urllib.request.Request(url, headers={"User-Agent": headers["User-Agent"]})
+    
+    daily_counts = {}
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            html = resp.read().decode("utf-8")
+
+        td_pattern = r'data-date=\"(\d{4}-\d{2}-\d{2})\" id=\"(contribution-day-component-[^\"]+)\"'
+        td_matches = re.findall(td_pattern, html)
+        date_id_map = {cid: dt for dt, cid in td_matches}
+
+        tt_pattern = r'<tool-tip[^>]*for=\"(contribution-day-component-[^\"]+)\"[^>]*>(.*?)</tool-tip>'
+        tt_matches = re.findall(tt_pattern, html, re.DOTALL)
+
+        for cid, text in tt_matches:
+            dt = date_id_map.get(cid)
+            if not dt:
+                continue
+            text_clean = text.strip()
+            if "No contributions" in text_clean:
+                count = 0
+            else:
+                m = re.search(r'(\d+)\s+contribution', text_clean)
+                count = int(m.group(1)) if m else 0
+            daily_counts[dt] = count
+    except Exception as e:
+        print(f"Error fetching GitHub contributions: {e}", file=sys.stderr)
+
+    sorted_dates = sorted(daily_counts.keys())
+    total_contribs = sum(daily_counts.values())
+
+    # Streaks calculation
+    longest_streak = 0
+    longest_start = None
+    longest_end = None
+    temp_streak = 0
+    temp_start = None
+
+    for dt in sorted_dates:
+        c = daily_counts[dt]
+        if c > 0:
+            if temp_streak == 0:
+                temp_start = dt
+            temp_streak += 1
+            if temp_streak > longest_streak:
+                longest_streak = temp_streak
+                longest_start = temp_start
+                longest_end = dt
+        else:
+            temp_streak = 0
+            temp_start = None
+
+    # Current streak calculation
+    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    curr = 0
+    curr_start = None
+    curr_end = None
+
+    for dt in reversed(sorted_dates):
+        if daily_counts[dt] > 0:
+            if curr == 0:
+                curr_end = dt
+            curr += 1
+            curr_start = dt
+        else:
+            if dt == today_str and curr == 0:
+                continue
+            else:
+                break
+
+    def fmt_date(d_str):
+        if not d_str:
+            return ""
+        dt_obj = datetime.datetime.strptime(d_str, "%Y-%m-%d")
+        return dt_obj.strftime("%b %d")
+
+    def fmt_range(s_str, e_str):
+        if not s_str or not e_str:
+            return ""
+        s_obj = datetime.datetime.strptime(s_str, "%Y-%m-%d")
+        e_obj = datetime.datetime.strptime(e_str, "%Y-%m-%d")
+        if s_str == e_str:
+            return s_obj.strftime("%b %d")
+        elif s_obj.month == e_obj.month:
+            return f"{s_obj.strftime('%b %d')} - {e_obj.strftime('%d')}"
+        else:
+            return f"{s_obj.strftime('%b %d')} - {e_obj.strftime('%b %d')}"
+
+    date_range_str = f"{fmt_date(sorted_dates[0])}, {sorted_dates[0][:4]} – {fmt_date(sorted_dates[-1])}, {sorted_dates[-1][:4]}" if sorted_dates else ""
+    curr_streak_dates = fmt_range(curr_start, curr_end) if curr > 0 else "Recent"
+    longest_streak_dates = fmt_range(longest_start, longest_end) if longest_streak > 0 else "Recent"
+
+    # Build Heatmap SVG Rectangles (52 weeks x 7 days)
+    rects_svg = []
+    if sorted_dates:
+        start_dt = datetime.datetime.strptime(sorted_dates[0], "%Y-%m-%d")
+        start_wday = start_dt.weekday()
+        week_idx = 0
+        day_idx = (start_wday + 1) % 7
+
+        for dt_str in sorted_dates:
+            cnt = daily_counts[dt_str]
+            if cnt == 0:
+                fill = "#161b22"
+            elif cnt == 1:
+                fill = "#0e4429"
+            elif cnt <= 3:
+                fill = "#006d32"
+            elif cnt <= 7:
+                fill = "#26a641"
+            else:
+                fill = "#39d353"
+
+            x_pos = week_idx * 8.2
+            y_pos = day_idx * 8.2
+            rects_svg.append(f'<rect x="{x_pos:.1f}" y="{y_pos:.1f}" width="6.5" height="6.5" rx="1.5" fill="{fill}" />')
+
+            day_idx += 1
+            if day_idx == 7:
+                day_idx = 0
+                week_idx += 1
+
+    heatmap_svg = "".join(rects_svg)
+
+    return {
+        "total_contributions": total_contribs,
+        "current_streak": curr,
+        "current_streak_dates": curr_streak_dates,
+        "longest_streak": longest_streak,
+        "longest_streak_dates": longest_streak_dates,
+        "date_range": date_range_str,
+        "heatmap_svg": heatmap_svg,
+    }
+
+def generate_github_svg(act, gh_stats, leetcode_solved):
+    svg_content = f"""<svg fill="none" viewBox="0 0 850 380" width="850" height="380" xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml">
       <style>
@@ -398,21 +535,23 @@ def generate_github_svg(gh_stats, leetcode_solved):
           background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
           border: 1px solid #30363d;
           border-radius: 16px;
-          padding: 24px 36px;
+          padding: 24px 32px;
           box-sizing: border-box;
           width: 850px;
-          height: 220px;
+          height: 380px;
           color: #c9d1d9;
           position: relative;
           overflow: hidden;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }}
 
         .gh-header {{
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 20px;
           border-bottom: 1px solid #21262d;
           padding-bottom: 12px;
         }}
@@ -436,29 +575,106 @@ def generate_github_svg(gh_stats, leetcode_solved):
           border: 1px solid #30363d;
         }}
 
-        .gh-grid {{
+        .contrib-grid {{
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: 1.4fr 1fr;
           gap: 20px;
         }}
 
-        .gh-stat {{
+        .contrib-box {{
           background: rgba(22, 27, 34, 0.8);
           border: 1px solid #30363d;
           border-radius: 12px;
-          padding: 16px;
+          padding: 16px 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }}
+
+        .contrib-header-label {{
+          font-size: 12px;
+          font-weight: 700;
+          color: #8b949e;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+        }}
+
+        .total-contrib-num {{
+          font-size: 34px;
+          font-weight: 800;
+          color: #38bdf8;
+          font-family: 'Fira Code', monospace;
+          line-height: 1.1;
+          margin-top: 4px;
+        }}
+
+        .contrib-date-subtext {{
+          font-size: 11px;
+          color: #8b949e;
+          margin-top: 2px;
+          margin-bottom: 8px;
+        }}
+
+        .streak-row {{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: rgba(13, 17, 23, 0.6);
+          border: 1px solid #21262d;
+          border-radius: 10px;
+          padding: 10px 16px;
+        }}
+
+        .streak-info {{
+          display: flex;
+          flex-direction: column;
+        }}
+
+        .streak-label {{
+          font-size: 11px;
+          font-weight: 700;
+          color: #8b949e;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }}
+
+        .streak-val {{
+          font-size: 22px;
+          font-weight: 800;
+          font-family: 'Fira Code', monospace;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }}
+
+        .streak-dates {{
+          font-size: 11px;
+          color: #8b949e;
+        }}
+
+        .analytics-grid {{
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }}
+
+        .stat-card {{
+          background: rgba(22, 27, 34, 0.8);
+          border: 1px solid #30363d;
+          border-radius: 12px;
+          padding: 14px 16px;
           text-align: center;
         }}
 
-        .gh-num {{
-          font-size: 28px;
+        .stat-num {{
+          font-size: 24px;
           font-weight: 800;
           color: #38bdf8;
           font-family: 'Fira Code', monospace;
         }}
 
-        .gh-label {{
-          font-size: 12px;
+        .stat-label {{
+          font-size: 11px;
           color: #8b949e;
           margin-top: 4px;
           text-transform: uppercase;
@@ -474,18 +690,59 @@ def generate_github_svg(gh_stats, leetcode_solved):
           <div class="gh-user">@{GITHUB_USERNAME}</div>
         </div>
 
-        <div class="gh-grid">
-          <div class="gh-stat">
-            <div class="gh-num">{gh_stats["public_repos"]}</div>
-            <div class="gh-label">📦 Public Repositories</div>
+        <!-- Top Section: Contribution Activity & Streaks -->
+        <div class="contrib-grid">
+          <!-- Left: Total Contributions & Heatmap -->
+          <div class="contrib-box">
+            <div>
+              <div class="contrib-header-label">Total Contributions</div>
+              <div class="total-contrib-num">{act["total_contributions"]}</div>
+              <div class="contrib-date-subtext">{act["date_range"]}</div>
+            </div>
+            <div style="overflow: hidden; padding-top: 2px;">
+              <svg width="445" height="58" viewBox="0 0 445 58">
+                {act["heatmap_svg"]}
+              </svg>
+            </div>
           </div>
-          <div class="gh-stat">
-            <div class="gh-num">{gh_stats["followers"]}</div>
-            <div class="gh-label">👥 Followers</div>
+
+          <!-- Right: Current & Longest Streaks -->
+          <div class="contrib-box" style="justify-content: space-around;">
+            <div class="streak-row">
+              <div class="streak-info">
+                <span class="streak-label">Current Streak</span>
+                <span class="streak-dates">{act["current_streak_dates"]}</span>
+              </div>
+              <div class="streak-val" style="color: #f0883e;">
+                🔥 {act["current_streak"]}
+              </div>
+            </div>
+
+            <div class="streak-row">
+              <div class="streak-info">
+                <span class="streak-label">Longest Streak</span>
+                <span class="streak-dates">{act["longest_streak_dates"]}</span>
+              </div>
+              <div class="streak-val" style="color: #2ecc71;">
+                ⚡ {act["longest_streak"]}
+              </div>
+            </div>
           </div>
-          <div class="gh-stat">
-            <div class="gh-num" style="color: #f0883e;">{leetcode_solved}</div>
-            <div class="gh-label">🧠 LeetCode Solved</div>
+        </div>
+
+        <!-- Bottom Section: Quick Analytics Summary -->
+        <div class="analytics-grid">
+          <div class="stat-card">
+            <div class="stat-num">{gh_stats["public_repos"]}</div>
+            <div class="stat-label">📦 Public Repositories</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">{gh_stats["followers"]}</div>
+            <div class="stat-label">👥 Followers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color: #f0883e;">{leetcode_solved}</div>
+            <div class="stat-label">🧠 LeetCode Solved</div>
           </div>
         </div>
       </div>
@@ -539,11 +796,15 @@ def main():
     raw_data = fetch_leetcode_data(LEETCODE_USERNAME)
     stats = parse_stats(raw_data)
     
-    print(f"Fetching GitHub data for username: {GITHUB_USERNAME}...")
+    print(f"Fetching GitHub user stats for username: {GITHUB_USERNAME}...")
     gh_stats = fetch_github_data(GITHUB_USERNAME)
 
+    print(f"Fetching GitHub activity & contributions for username: {GITHUB_USERNAME}...")
+    gh_activity = fetch_github_activity(GITHUB_USERNAME)
+
     print(f"Parsed LeetCode Statistics: {stats}")
-    print(f"Parsed GitHub Statistics: {gh_stats}")
+    print(f"Parsed GitHub Stats: {gh_stats}")
+    print(f"Parsed GitHub Activity: Total={gh_activity['total_contributions']}, CurrentStreak={gh_activity['current_streak']}, LongestStreak={gh_activity['longest_streak']}")
 
     # Generate and save LeetCode SVG
     lc_svg = generate_svg(stats)
@@ -552,7 +813,7 @@ def main():
     print("Saved assets/leetcode_stats.svg")
 
     # Generate and save GitHub SVG
-    gh_svg = generate_github_svg(gh_stats, stats["total_solved"])
+    gh_svg = generate_github_svg(gh_activity, gh_stats, stats["total_solved"])
     with open("assets/github_stats.svg", "w", encoding="utf-8") as f:
         f.write(gh_svg)
     print("Saved assets/github_stats.svg")
