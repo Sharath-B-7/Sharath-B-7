@@ -5,8 +5,10 @@ import time
 import urllib.request
 
 LEETCODE_USERNAME = "Sharathbcs"
+GITHUB_USERNAME = "Sharath-B-7"
 GRAPHQL_URL = "https://leetcode.com/graphql"
 REST_API_URL = f"https://alfa-leetcode-api.onrender.com/userProfile/{LEETCODE_USERNAME}"
+GITHUB_API_URL = f"https://api.github.com/users/{GITHUB_USERNAME}"
 
 headers = {
     "Content-Type": "application/json",
@@ -78,6 +80,20 @@ def fetch_leetcode_data(username):
         print(f"REST API fallback attempt failed: {e}", file=sys.stderr)
 
     return None
+
+def fetch_github_data(username):
+    gh_stats = {"public_repos": 6, "followers": 0, "following": 0}
+    try:
+        req_gh = urllib.request.Request(GITHUB_API_URL, headers={"User-Agent": headers["User-Agent"]})
+        with urllib.request.urlopen(req_gh, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            if data:
+                gh_stats["public_repos"] = data.get("public_repos", 6)
+                gh_stats["followers"] = data.get("followers", 0)
+                gh_stats["following"] = data.get("following", 0)
+    except Exception as e:
+        print(f"GitHub API fetch failed (using fallback): {e}", file=sys.stderr)
+    return gh_stats
 
 def parse_stats(data):
     # Default baseline fallbacks (Updated live profile figures)
@@ -372,6 +388,112 @@ def generate_svg(stats):
 </svg>"""
     return svg_content
 
+def generate_github_svg(gh_stats, leetcode_solved):
+    svg_content = f"""<svg fill="none" viewBox="0 0 850 220" width="850" height="220" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        .gh-card {{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+          border: 1px solid #30363d;
+          border-radius: 16px;
+          padding: 24px 36px;
+          box-sizing: border-box;
+          width: 850px;
+          height: 220px;
+          color: #c9d1d9;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }}
+
+        .gh-header {{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          border-bottom: 1px solid #21262d;
+          padding-bottom: 12px;
+        }}
+
+        .gh-title {{
+          font-size: 20px;
+          font-weight: 700;
+          color: #38bdf8;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }}
+
+        .gh-user {{
+          font-size: 14px;
+          color: #8b949e;
+          font-family: 'Fira Code', monospace;
+          background: #21262d;
+          padding: 4px 12px;
+          border-radius: 20px;
+          border: 1px solid #30363d;
+        }}
+
+        .gh-grid {{
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }}
+
+        .gh-stat {{
+          background: rgba(22, 27, 34, 0.8);
+          border: 1px solid #30363d;
+          border-radius: 12px;
+          padding: 16px;
+          text-align: center;
+        }}
+
+        .gh-num {{
+          font-size: 28px;
+          font-weight: 800;
+          color: #38bdf8;
+          font-family: 'Fira Code', monospace;
+        }}
+
+        .gh-label {{
+          font-size: 12px;
+          color: #8b949e;
+          margin-top: 4px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }}
+      </style>
+
+      <div class="gh-card">
+        <div class="gh-header">
+          <div class="gh-title">
+            <span>📊</span> GITHUB ANALYTICS &amp; ACTIVITY
+          </div>
+          <div class="gh-user">@{GITHUB_USERNAME}</div>
+        </div>
+
+        <div class="gh-grid">
+          <div class="gh-stat">
+            <div class="gh-num">{gh_stats["public_repos"]}</div>
+            <div class="gh-label">📦 Public Repositories</div>
+          </div>
+          <div class="gh-stat">
+            <div class="gh-num">{gh_stats["followers"]}</div>
+            <div class="gh-label">👥 Followers</div>
+          </div>
+          <div class="gh-stat">
+            <div class="gh-num" style="color: #f0883e;">{leetcode_solved}</div>
+            <div class="gh-label">🧠 LeetCode Solved</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>"""
+    return svg_content
+
 def update_readme_table(readme_path, stats):
     try:
         with open(readme_path, "r", encoding="utf-8") as f:
@@ -382,6 +504,11 @@ def update_readme_table(readme_path, stats):
         content = re.sub(
             r'src="\./assets/leetcode_stats\.svg\?v=\d+"',
             f'src="./assets/leetcode_stats.svg?v={timestamp}"',
+            content
+        )
+        content = re.sub(
+            r'src="\./assets/github_stats\.svg\?v=\d+"',
+            f'src="./assets/github_stats.svg?v={timestamp}"',
             content
         )
         if 'src="./assets/leetcode_stats.svg"' in content:
@@ -412,13 +539,23 @@ def main():
     raw_data = fetch_leetcode_data(LEETCODE_USERNAME)
     stats = parse_stats(raw_data)
     
-    print(f"Parsed LeetCode Statistics: {stats}")
+    print(f"Fetching GitHub data for username: {GITHUB_USERNAME}...")
+    gh_stats = fetch_github_data(GITHUB_USERNAME)
 
-    # Generate and save SVG
-    svg_content = generate_svg(stats)
+    print(f"Parsed LeetCode Statistics: {stats}")
+    print(f"Parsed GitHub Statistics: {gh_stats}")
+
+    # Generate and save LeetCode SVG
+    lc_svg = generate_svg(stats)
     with open("assets/leetcode_stats.svg", "w", encoding="utf-8") as f:
-        f.write(svg_content)
+        f.write(lc_svg)
     print("Saved assets/leetcode_stats.svg")
+
+    # Generate and save GitHub SVG
+    gh_svg = generate_github_svg(gh_stats, stats["total_solved"])
+    with open("assets/github_stats.svg", "w", encoding="utf-8") as f:
+        f.write(gh_svg)
+    print("Saved assets/github_stats.svg")
 
     # Update README table
     update_readme_table("README.md", stats)

@@ -112,7 +112,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 🧠 LeetCode & Competitive Programming
 
 <p align="center">
-  <img src="./assets/leetcode_stats.svg?v=1789477811" alt="Sharath B LeetCode Statistics" width="100%" />
+  <img src="./assets/leetcode_stats.svg?v=1789478889" alt="Sharath B LeetCode Statistics" width="100%" />
 </p>
 
 <p align="center">
@@ -135,15 +135,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 📊 GitHub Activity & Analytics
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com/?user=Sharath-B-7&theme=tokyonight&hide_border=true&background=0d1117&stroke=38bdf8&sidebars=38bdf8" alt="Sharath B GitHub Streak Stats" height="165" />
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/github/followers/Sharath-B-7?label=Followers&style=for-the-badge&logo=github&color=38bdf8&labelColor=0d1117" />
-  &nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/Public_Repos-4-38bdf8?style=for-the-badge&logo=github&labelColor=0d1117" />
-  &nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/LeetCode_Solved-439-FFA116?style=for-the-badge&logo=leetcode&labelColor=0d1117" />
+  <img src="./assets/github_stats.svg?v=1789478889" alt="Sharath B GitHub Activity & Analytics" width="100%" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
