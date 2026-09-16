@@ -51,33 +51,22 @@ query getUserProfile($username: String!) {
 """
 
 def fetch_leetcode_data(username):
-    # Try official GraphQL API first
-    payload = json.dumps({
-        "query": graphql_query,
-        "variables": {"username": username}
-    }).encode("utf-8")
-    
-    req = urllib.request.Request(GRAPHQL_URL, data=payload, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            res = json.loads(resp.read().decode("utf-8"))
-            data = res.get("data", {})
-            if data and data.get("matchedUser"):
-                print("Successfully fetched live data via LeetCode GraphQL API.")
-                return data
-    except Exception as e:
-        print(f"GraphQL fetch attempt failed: {e}", file=sys.stderr)
-        
-    # Secondary REST API fallback
-    try:
-        req_rest = urllib.request.Request(REST_API_URL, headers={"User-Agent": headers["User-Agent"]})
-        with urllib.request.urlopen(req_rest, timeout=10) as resp:
-            res = json.loads(resp.read().decode("utf-8"))
-            if res:
-                print("Successfully fetched live data via REST API fallback.")
-                return res
-    except Exception as e:
-        print(f"REST API fallback attempt failed: {e}", file=sys.stderr)
+    url = f"https://alfa-leetcode-api.onrender.com/userProfile/{username}"
+    for attempt in range(1, 4):
+        try:
+            print(f"Attempt {attempt}: Fetching LeetCode data from {url}...")
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                "Accept": "application/json, text/plain, */*",
+            })
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                res = json.loads(resp.read().decode("utf-8"))
+                if res and "totalSolved" in res:
+                    print("Successfully fetched live data via LeetCode REST API.")
+                    return res
+        except Exception as e:
+            print(f"Attempt {attempt} failed: {e}", file=sys.stderr)
+            time.sleep(2)
 
     return None
 
@@ -98,16 +87,16 @@ def fetch_github_data(username):
 def parse_stats(data):
     # Default baseline fallbacks (Updated live profile figures)
     stats = {
-        "total_solved": 443,
+        "total_solved": 444,
         "total_questions": 4055,
         "easy_solved": 275,
         "easy_total": 965,
-        "medium_solved": 155,
+        "medium_solved": 156,
         "medium_total": 2115,
         "hard_solved": 13,
         "hard_total": 975,
         "contest_rating": "1,626",
-        "global_rank": "268,354",
+        "global_rank": "266,352",
         "top_percentile": "21.02%",
         "contests_attended": 42,
         "badge_count": 2,
@@ -525,7 +514,7 @@ def fetch_github_activity(username):
         "heatmap_svg": heatmap_svg,
     }
 
-def generate_github_svg(act, gh_stats, leetcode_solved):
+def generate_github_svg(act, gh_stats):
     svg_content = f"""<svg fill="none" viewBox="0 0 850 380" width="850" height="380" xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml">
@@ -654,8 +643,8 @@ def generate_github_svg(act, gh_stats, leetcode_solved):
 
         .analytics-grid {{
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 16px;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
         }}
 
         .stat-card {{
@@ -740,10 +729,6 @@ def generate_github_svg(act, gh_stats, leetcode_solved):
             <div class="stat-num">{gh_stats["followers"]}</div>
             <div class="stat-label">👥 Followers</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-num" style="color: #f0883e;">{leetcode_solved}</div>
-            <div class="stat-label">🧠 LeetCode Solved</div>
-          </div>
         </div>
       </div>
     </div>
@@ -813,7 +798,7 @@ def main():
     print("Saved assets/leetcode_stats.svg")
 
     # Generate and save GitHub SVG
-    gh_svg = generate_github_svg(gh_activity, gh_stats, stats["total_solved"])
+    gh_svg = generate_github_svg(gh_activity, gh_stats)
     with open("assets/github_stats.svg", "w", encoding="utf-8") as f:
         f.write(gh_svg)
     print("Saved assets/github_stats.svg")
