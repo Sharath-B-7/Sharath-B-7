@@ -84,7 +84,7 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 28.5%; background: #2ecc71; height: 100%; }
+        .progress-fill-easy { width: 28.6%; background: #2ecc71; height: 100%; }
         .progress-fill-medium { width: 7.6%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.3%; background: #e74c3c; height: 100%; }
 
@@ -139,14 +139,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">448</div>
+              <div class="total-num">450</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>275</strong> / 965</span>
+                <span><strong>276</strong> / 966</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>160</strong> / 2,115</span>
+                <span><strong>161</strong> / 2,117</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -162,7 +162,7 @@
 
               <div class="diff-row">
                 <span class="diff-hard">🔴 Hard</span>
-                <span><strong>13</strong> / 975</span>
+                <span><strong>13</strong> / 976</span>
               </div>
               <div class="progress-bar">
                 <div class="progress-fill-hard"></div>
@@ -179,7 +179,7 @@
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">262,580</span>
+                <span class="metric-val">259,608</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>
