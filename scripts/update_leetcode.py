@@ -51,19 +51,49 @@ query getUserProfile($username: String!) {
 """
 
 def fetch_leetcode_data(username):
-    url = f"https://alfa-leetcode-api.onrender.com/userProfile/{username}"
+    headers_req = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+    }
+    
+    url_profile = f"https://alfa-leetcode-api.onrender.com/userProfile/{username}"
+    url_contest = f"https://alfa-leetcode-api.onrender.com/{username}/contest"
+    url_badges = f"https://alfa-leetcode-api.onrender.com/{username}/badges"
+
+    merged = {}
+
     for attempt in range(1, 4):
         try:
-            print(f"Attempt {attempt}: Fetching LeetCode data from {url}...")
-            req = urllib.request.Request(url, headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                "Accept": "application/json, text/plain, */*",
-            })
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                res = json.loads(resp.read().decode("utf-8"))
-                if res and "totalSolved" in res:
-                    print("Successfully fetched live data via LeetCode REST API.")
-                    return res
+            print(f"Attempt {attempt}: Fetching LeetCode data from REST API...")
+            req_p = urllib.request.Request(url_profile, headers=headers_req)
+            with urllib.request.urlopen(req_p, timeout=12) as resp:
+                p_data = json.loads(resp.read().decode("utf-8"))
+                if p_data and "totalSolved" in p_data:
+                    merged.update(p_data)
+            
+            # Fetch contest data
+            try:
+                req_c = urllib.request.Request(url_contest, headers=headers_req)
+                with urllib.request.urlopen(req_c, timeout=10) as resp:
+                    c_data = json.loads(resp.read().decode("utf-8"))
+                    if c_data:
+                        merged["contest"] = c_data
+            except Exception as e_c:
+                print(f"Contest fetch info: {e_c}", file=sys.stderr)
+
+            # Fetch badges data
+            try:
+                req_b = urllib.request.Request(url_badges, headers=headers_req)
+                with urllib.request.urlopen(req_b, timeout=10) as resp:
+                    b_data = json.loads(resp.read().decode("utf-8"))
+                    if b_data:
+                        merged["badges_data"] = b_data
+            except Exception as e_b:
+                print(f"Badges fetch info: {e_b}", file=sys.stderr)
+
+            if "totalSolved" in merged:
+                print("Successfully fetched and merged live LeetCode REST data.")
+                return merged
         except Exception as e:
             print(f"Attempt {attempt} failed: {e}", file=sys.stderr)
             time.sleep(2)
@@ -87,23 +117,76 @@ def fetch_github_data(username):
 def parse_stats(data):
     # Default baseline fallbacks (Updated live profile figures)
     stats = {
-        "total_solved": 444,
+        "total_solved": 448,
         "total_questions": 4055,
         "easy_solved": 275,
         "easy_total": 965,
-        "medium_solved": 156,
+        "medium_solved": 160,
         "medium_total": 2115,
         "hard_solved": 13,
         "hard_total": 975,
-        "contest_rating": "1,626",
-        "global_rank": "266,352",
-        "top_percentile": "21.02%",
-        "contests_attended": 42,
+        "contest_rating": "1,687",
+        "global_rank": "262,580",
+        "top_percentile": "15.09%",
+        "contests_attended": 43,
         "badge_count": 2,
     }
 
     if not data:
         return stats
+
+    # Handles REST schema (alfa-leetcode-api)
+    if "totalSolved" in data:
+        stats["total_solved"] = data.get("totalSolved", stats["total_solved"])
+        stats["easy_solved"] = data.get("easySolved", stats["easy_solved"])
+        stats["medium_solved"] = data.get("mediumSolved", stats["medium_solved"])
+        stats["hard_solved"] = data.get("hardSolved", stats["hard_solved"])
+        if "totalQuestions" in data and data["totalQuestions"]:
+            stats["total_questions"] = data["totalQuestions"]
+        if "totalEasy" in data and data["totalEasy"]:
+            stats["easy_total"] = data["totalEasy"]
+        if "totalMedium" in data and data["totalMedium"]:
+            stats["medium_total"] = data["totalMedium"]
+        if "totalHard" in data and data["totalHard"]:
+            stats["hard_total"] = data["totalHard"]
+
+        if "ranking" in data and data["ranking"]:
+            try:
+                stats["global_rank"] = f"{int(data['ranking']):,}"
+            except Exception:
+                stats["global_rank"] = str(data["ranking"])
+
+    # Extract contest stats from REST merge
+    if "contest" in data and isinstance(data["contest"], dict):
+        c_data = data["contest"]
+        c_rating = c_data.get("contestRating")
+        if c_rating is not None and c_rating > 0:
+            stats["contest_rating"] = f"{int(round(c_rating)):,}"
+
+        c_att = c_data.get("contestAttend")
+        if c_att is not None:
+            stats["contests_attended"] = int(c_att)
+
+        top_pct = c_data.get("contestTopPercentage")
+        if top_pct is not None and top_pct > 0:
+            stats["top_percentile"] = f"{float(top_pct):.2f}%"
+
+    elif "contestRating" in data:
+        c_rating = data.get("contestRating")
+        if c_rating is not None and c_rating > 0:
+            stats["contest_rating"] = f"{int(round(c_rating)):,}"
+        if "contestAttend" in data and data["contestAttend"] is not None:
+            stats["contests_attended"] = int(data["contestAttend"])
+        if "contestTopPercentage" in data and data["contestTopPercentage"] is not None:
+            stats["top_percentile"] = f"{float(data['contestTopPercentage']):.2f}%"
+
+    # Extract badges count from REST merge
+    if "badges_data" in data and isinstance(data["badges_data"], dict):
+        b_count = data["badges_data"].get("badgesCount")
+        if b_count is not None:
+            stats["badge_count"] = int(b_count)
+    elif "badgesCount" in data and data["badgesCount"] is not None:
+        stats["badge_count"] = int(data["badgesCount"])
 
     # Handles GraphQL schema
     if "allQuestionsCount" in data:
@@ -141,30 +224,24 @@ def parse_stats(data):
 
             p_rank = matched.get("profile", {}).get("ranking")
             if p_rank:
-                stats["global_rank"] = f"{p_rank:,}"
+                try:
+                    stats["global_rank"] = f"{int(p_rank):,}"
+                except Exception:
+                    stats["global_rank"] = str(p_rank)
 
         contest = data.get("userContestRanking")
         if contest:
             c_rating = contest.get("rating")
             if c_rating:
                 stats["contest_rating"] = f"{int(round(c_rating)):,}"
-            
+
             top_pct = contest.get("topPercentage")
             if top_pct:
-                stats["top_percentile"] = f"{top_pct:.2f}%"
+                stats["top_percentile"] = f"{float(top_pct):.2f}%"
 
             c_att = contest.get("attendedContestsCount")
             if c_att is not None:
-                stats["contests_attended"] = c_att
-
-    # Handles REST schema fallback
-    elif "totalSolved" in data:
-        stats["total_solved"] = data.get("totalSolved", stats["total_solved"])
-        stats["easy_solved"] = data.get("easySolved", stats["easy_solved"])
-        stats["medium_solved"] = data.get("mediumSolved", stats["medium_solved"])
-        stats["hard_solved"] = data.get("hardSolved", stats["hard_solved"])
-        if "ranking" in data:
-            stats["global_rank"] = f"{data['ranking']:,}"
+                stats["contests_attended"] = int(c_att)
 
     return stats
 
@@ -769,6 +846,13 @@ def update_readme_table(readme_path, stats):
         replacement = f"| Metric | Verified Current Figure | Detail Breakdown |\n| :--- | :---: | :--- |\n{new_table_rows}\n"
 
         content = re.sub(table_pattern, replacement, content)
+
+        # Update Solved X LeetCode Problems in Honors & Achievements section
+        content = re.sub(
+            r'Solved \*\*\d+ LeetCode Problems\*\*',
+            f'Solved **{stats["total_solved"]} LeetCode Problems**',
+            content
+        )
 
         with open(readme_path, "w", encoding="utf-8") as f:
             f.write(content)
