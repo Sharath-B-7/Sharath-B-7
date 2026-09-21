@@ -112,7 +112,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 🧠 LeetCode & Competitive Programming
 
 <p align="center">
-  <img src="./assets/leetcode_stats.svg?v=1789955999" alt="Sharath B LeetCode Statistics" width="100%" />
+  <img src="./assets/leetcode_stats.svg?v=1789989349" alt="Sharath B LeetCode Statistics" width="100%" />
 </p>
 
 <p align="center">
@@ -125,7 +125,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 | Metric | Verified Current Figure | Detail Breakdown |
 | :--- | :---: | :--- |
-| 🏆 **Global Rank** | **259,608** | Top **15.09%** worldwide |
+| 🏆 **Global Rank** | **259,771** | Top **15.09%** worldwide |
 | 📈 **Contest Rating** | **1,687** | **43** Contests Attended |
 | 💻 **Total Problems Solved** | **450 / 4,059** | 🟢 **276** Easy \| 🟡 **161** Medium \| 🔴 **13** Hard |
 | 🏅 **Badges** | **2 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
@@ -136,9 +136,9 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 <p align="center">
 <<<<<<< HEAD
-  <img src="./assets/github_stats.svg?v=1789955999" alt="Sharath B GitHub Activity & Analytics" width="100%" />
+  <img src="./assets/github_stats.svg?v=1789989349" alt="Sharath B GitHub Activity & Analytics" width="100%" />
 =======
-  <img src="./assets/github_stats.svg?v=1789955999" alt="Sharath B GitHub Activity & Analytics" width="100%" />
+  <img src="./assets/github_stats.svg?v=1789989349" alt="Sharath B GitHub Activity & Analytics" width="100%" />
 >>>>>>> 60e2292 (fix: sync contest rating, contests count, top percentile, and solved counts from live profile)
 </p>
 
