@@ -139,7 +139,7 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">452</div>
+              <div class="total-num">453</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>163</strong> / 2,117</span>
+                <span><strong>164</strong> / 2,117</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
