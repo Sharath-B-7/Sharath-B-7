@@ -84,8 +84,8 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 28.8%; background: #2ecc71; height: 100%; }
-        .progress-fill-medium { width: 7.9%; background: #f1c40f; height: 100%; }
+        .progress-fill-easy { width: 28.5%; background: #2ecc71; height: 100%; }
+        .progress-fill-medium { width: 7.6%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.3%; background: #e74c3c; height: 100%; }
 
         .total-solved {
@@ -139,14 +139,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">460</div>
+              <div class="total-num">448</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>279</strong> / 969</span>
+                <span><strong>275</strong> / 965</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>168</strong> / 2,124</span>
+                <span><strong>160</strong> / 2,115</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -162,7 +162,7 @@
 
               <div class="diff-row">
                 <span class="diff-hard">🔴 Hard</span>
-                <span><strong>13</strong> / 980</span>
+                <span><strong>13</strong> / 975</span>
               </div>
               <div class="progress-bar">
                 <div class="progress-fill-hard"></div>
@@ -175,23 +175,23 @@
             <div class="stat-box" style="height: 100%; display: flex; flex-direction: column; justify-content: space-around;">
               <div class="metric-row">
                 <span class="metric-label">📈 Contest Rating</span>
-                <span class="metric-val" style="color: #f0883e;">1,689</span>
+                <span class="metric-val" style="color: #f0883e;">1,687</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">251,714</span>
+                <span class="metric-val">262,580</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>
-                <span class="metric-val" style="color: #2ecc71;">Top 14.97%</span>
+                <span class="metric-val" style="color: #2ecc71;">Top 15.09%</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏁 Contests</span>
-                <span class="metric-val">45 Contests</span>
+                <span class="metric-val">43 Contests</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏅 Badges</span>
-                <span class="metric-val">3 Badges</span>
+                <span class="metric-val">2 Badges</span>
               </div>
             </div>
           </div>
