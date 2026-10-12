@@ -139,14 +139,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">462</div>
+              <div class="total-num">464</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>280</strong> / 969</span>
+                <span><strong>281</strong> / 971</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>169</strong> / 2,124</span>
+                <span><strong>170</strong> / 2,128</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -162,7 +162,7 @@
 
               <div class="diff-row">
                 <span class="diff-hard">🔴 Hard</span>
-                <span><strong>13</strong> / 980</span>
+                <span><strong>13</strong> / 982</span>
               </div>
               <div class="progress-bar">
                 <div class="progress-fill-hard"></div>
