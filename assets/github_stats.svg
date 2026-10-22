@@ -168,7 +168,7 @@
           <div class="contrib-box">
             <div>
               <div class="contrib-header-label">Total Contributions</div>
-              <div class="total-contrib-num">53</div>
+              <div class="total-contrib-num">93</div>
               <div class="contrib-date-subtext">Sep 28, 2025 – Oct 03, 2026</div>
             </div>
             <div style="overflow: hidden; padding-top: 2px;">
@@ -205,7 +205,7 @@
         <!-- Bottom Section: Quick Analytics Summary -->
         <div class="analytics-grid">
           <div class="stat-card">
-            <div class="stat-num">6</div>
+            <div class="stat-num">7</div>
             <div class="stat-label">📦 Public Repositories</div>
           </div>
           <div class="stat-card">
