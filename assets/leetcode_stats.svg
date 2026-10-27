@@ -84,8 +84,8 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 29.5%; background: #2ecc71; height: 100%; }
-        .progress-fill-medium { width: 8.4%; background: #f1c40f; height: 100%; }
+        .progress-fill-easy { width: 29.6%; background: #2ecc71; height: 100%; }
+        .progress-fill-medium { width: 8.6%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.4%; background: #e74c3c; height: 100%; }
 
         .total-solved {
@@ -139,14 +139,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">481</div>
+              <div class="total-num">485</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>287</strong> / 974</span>
+                <span><strong>288</strong> / 974</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>180</strong> / 2,135</span>
+                <span><strong>183</strong> / 2,135</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -179,7 +179,7 @@
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">235,877</span>
+                <span class="metric-val">230,403</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>
