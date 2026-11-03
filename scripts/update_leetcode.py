@@ -813,13 +813,47 @@ def generate_github_svg(act, gh_stats):
 </svg>"""
     return svg_content
 
+def _strip_conflict_markers(content):
+    """Remove ALL git conflict markers and deduplicate consecutive img lines."""
+    # Resolve 2-way blocks (keep incoming / theirs version)
+    two_way = re.compile(
+        r'<<<<<<< HEAD\n(.*?)\n=======\n(.*?)\n>>>>>>> [^\n]+\n',
+        re.DOTALL
+    )
+    for _ in range(10):
+        if not two_way.search(content):
+            break
+        content = two_way.sub(lambda m: m.group(2) + '\n', content)
+
+    # Strip orphaned / nested marker lines
+    content = re.sub(r'^<<<<<<< .*\n', '', content, flags=re.MULTILINE)
+    content = re.sub(r'^=======\n',    '', content, flags=re.MULTILINE)
+    content = re.sub(r'^>>>>>>> .*\n', '', content, flags=re.MULTILINE)
+
+    # Remove consecutive duplicate lines inside <p> blocks
+    def dedup_block(m):
+        lines = m.group(1).splitlines(keepends=True)
+        deduped = []
+        for line in lines:
+            if deduped and line.strip() and deduped[-1].strip() == line.strip():
+                continue
+            deduped.append(line)
+        tag_open = m.group(0)[:m.start(1) - m.start(0)]
+        return tag_open + ''.join(deduped) + '</p>'
+
+    content = re.sub(r'<p[^>]*>([\s\S]*?)</p>', dedup_block, content)
+    return content
+
+
 def update_readme_table(readme_path, stats):
     try:
         with open(readme_path, "r", encoding="utf-8") as f:
             content = f.read()
 
+        # SAFETY: strip any leftover git conflict markers and duplicates
+        content = _strip_conflict_markers(content)
+
         timestamp = int(time.time())
-        # Update SVG image reference timestamp
         content = re.sub(
             r'src="\./assets/leetcode_stats\.svg\?v=\d+"',
             f'src="./assets/leetcode_stats.svg?v={timestamp}"',
@@ -836,18 +870,24 @@ def update_readme_table(readme_path, stats):
                 f'src="./assets/leetcode_stats.svg?v={timestamp}"'
             )
 
-        # Update LeetCode table metrics dynamically
-        new_table_rows = f"""| 🏆 **Global Rank** | **{stats["global_rank"]}** | Top **{stats["top_percentile"]}** worldwide |
-| 📈 **Contest Rating** | **{stats["contest_rating"]}** | **{stats["contests_attended"]}** Contests Attended |
-| 💻 **Total Problems Solved** | **{stats["total_solved"]} / {stats["total_questions"]:,}** | 🟢 **{stats["easy_solved"]}** Easy \\| 🟡 **{stats["medium_solved"]}** Medium \\| 🔴 **{stats["hard_solved"]}** Hard |
-| 🏅 **Badges** | **{stats["badge_count"]} Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |"""
+        new_table_rows = (
+            f'| \U0001f3c6 **Global Rank** | **{stats["global_rank"]}** | Top **{stats["top_percentile"]}** worldwide |\n'
+            f'| \U0001f4c8 **Contest Rating** | **{stats["contest_rating"]}** | **{stats["contests_attended"]}** Contests Attended |\n'
+            f'| \U0001f4bb **Total Problems Solved** | **{stats["total_solved"]} / {stats["total_questions"]:,}** | \U0001f7e2 **{stats["easy_solved"]}** Easy \\| \U0001f7e1 **{stats["medium_solved"]}** Medium \\| \U0001f534 **{stats["hard_solved"]}** Hard |\n'
+            f'| \U0001f3c5 **Badges** | **{stats["badge_count"]} Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |'
+        )
 
-        table_pattern = r"(\| Metric \| Verified Current Figure \| Detail Breakdown \|[\s\S]*?\| 🏅 \*\*Badges\*\* \|[\s\S]*?\n)"
-        replacement = f"| Metric | Verified Current Figure | Detail Breakdown |\n| :--- | :---: | :--- |\n{new_table_rows}\n"
-
+        table_pattern = (
+            r"(\| Metric \| Verified Current Figure \| Detail Breakdown \|"
+            r"[\s\S]*?\| .* \*\*Badges\*\* \|[\s\S]*?\n)"
+        )
+        replacement = (
+            "| Metric | Verified Current Figure | Detail Breakdown |\n"
+            "| :--- | :---: | :--- |\n"
+            + new_table_rows + "\n"
+        )
         content = re.sub(table_pattern, replacement, content)
 
-        # Update Solved X LeetCode Problems in Honors & Achievements section
         content = re.sub(
             r'Solved \*\*\d+ LeetCode Problems\*\*',
             f'Solved **{stats["total_solved"]} LeetCode Problems**',
