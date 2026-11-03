@@ -1,0 +1,38 @@
+# notify-profile-sync.yml
+# ──────────────────────────────────────────────────────────────────────────────
+# DROP THIS FILE into any repository at:
+#   .github/workflows/notify-profile-sync.yml
+#
+# It fires after every push and tells the GitHub profile repo
+# (Sharath-B-7/Sharath-B-7) to immediately re-sync the stats card.
+#
+# REQUIRED SECRET: Add a Personal Access Token (PAT) named PROFILE_SYNC_TOKEN
+# to EACH repo that uses this file.
+#
+# Steps to create the PAT (one-time setup):
+#   1. Go to https://github.com/settings/tokens
+#   2. Click "Generate new token (classic)"
+#   3. Give it a name, e.g. "profile-sync"
+#   4. Under Scopes, tick: repo (full)
+#   5. Click Generate token → copy the token
+#   6. In this repo → Settings → Secrets → Actions → New repository secret
+#      Name: PROFILE_SYNC_TOKEN  Value: <paste token>
+#   7. Repeat step 6 in every other repo you want to trigger sync from.
+# ──────────────────────────────────────────────────────────────────────────────
+name: Notify Profile Stats Sync
+
+on:
+  push:
+    branches: ['**']
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger profile repo stats sync
+        run: |
+          curl -s -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.PROFILE_SYNC_TOKEN }}" \
+            https://api.github.com/repos/Sharath-B-7/Sharath-B-7/dispatches \
+            -d '{"event_type":"contribution-made"}'

@@ -455,46 +455,95 @@ def generate_svg(stats):
     return svg_content
 
 def fetch_github_activity(username):
-    import datetime
-    url = f"https://github.com/users/{username}/contributions"
-    req = urllib.request.Request(url, headers={"User-Agent": headers["User-Agent"]})
-    
+    """
+    Fetch contribution activity from GitHub GraphQL API.
+    Uses GITHUB_TOKEN env var (auto-provided in GitHub Actions).
+    Falls back to HTML scraping if token is not available.
+    """
+    import datetime, os, json as _json
+
+    token = os.environ.get("GITHUB_TOKEN", "")
     daily_counts = {}
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            html = resp.read().decode("utf-8")
 
-        td_pattern = r'data-date=\"(\d{4}-\d{2}-\d{2})\" id=\"(contribution-day-component-[^\"]+)\"'
-        td_matches = re.findall(td_pattern, html)
-        date_id_map = {cid: dt for dt, cid in td_matches}
+    # ── Primary: GitHub GraphQL API (accurate, live, no rate-limit issues) ──
+    if token:
+        gql = """
+{
+  user(login: "%s") {
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            contributionCount
+            date
+          }
+        }
+      }
+    }
+    repositories(privacy: PUBLIC, first: 1) {
+      totalCount
+    }
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+  }
+}
+""" % username
+        try:
+            payload = _json.dumps({"query": gql}).encode("utf-8")
+            req = urllib.request.Request(
+                "https://api.github.com/graphql",
+                data=payload,
+                headers={
+                    "Authorization": f"bearer {token}",
+                    "Content-Type": "application/json",
+                    "User-Agent": headers["User-Agent"],
+                },
+            )
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = _json.loads(resp.read().decode("utf-8"))
 
-        tt_pattern = r'<tool-tip[^>]*for=\"(contribution-day-component-[^\"]+)\"[^>]*>(.*?)</tool-tip>'
-        tt_matches = re.findall(tt_pattern, html, re.DOTALL)
+            cal = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+            for week in cal["weeks"]:
+                for day in week["contributionDays"]:
+                    daily_counts[day["date"]] = day["contributionCount"]
 
-        for cid, text in tt_matches:
-            dt = date_id_map.get(cid)
-            if not dt:
-                continue
-            text_clean = text.strip()
-            if "No contributions" in text_clean:
-                count = 0
-            else:
-                m = re.search(r'(\d+)\s+contribution', text_clean)
-                count = int(m.group(1)) if m else 0
-            daily_counts[dt] = count
-    except Exception as e:
-        print(f"Error fetching GitHub contributions: {e}", file=sys.stderr)
+            print(f"GitHub GraphQL API: {cal['totalContributions']} contributions fetched.")
+        except Exception as e:
+            print(f"GitHub GraphQL fetch failed: {e}", file=sys.stderr)
+            daily_counts = {}
 
+    # ── Fallback: HTML scraping ───────────────────────────────────────────────
+    if not daily_counts:
+        url = f"https://github.com/users/{username}/contributions"
+        req = urllib.request.Request(url, headers={"User-Agent": headers["User-Agent"]})
+        try:
+            with urllib.request.urlopen(req, timeout=12) as resp:
+                html = resp.read().decode("utf-8")
+
+            dates = re.findall(r'data-date="(\d{4}-\d{2}-\d{2})"', html)
+            tips  = re.findall(r'<tool-tip[^>]*>([\s\S]*?)</tool-tip>', html)
+            for date, tip in zip(dates, tips):
+                tip = tip.strip()
+                if "No contributions" in tip:
+                    daily_counts[date] = 0
+                else:
+                    m = re.search(r'(\d+)\s+contribution', tip)
+                    daily_counts[date] = int(m.group(1)) if m else 0
+            print(f"HTML scrape: {sum(daily_counts.values())} contributions fetched.")
+        except Exception as e:
+            print(f"HTML scrape failed: {e}", file=sys.stderr)
+
+    # ── Compute streaks and heatmap ───────────────────────────────────────────
     sorted_dates = sorted(daily_counts.keys())
     total_contribs = sum(daily_counts.values())
 
-    # Streaks calculation
-    longest_streak = 0
-    longest_start = None
-    longest_end = None
-    temp_streak = 0
-    temp_start = None
-
+    longest_streak, longest_start, longest_end = 0, None, None
+    temp_streak, temp_start = 0, None
     for dt in sorted_dates:
         c = daily_counts[dt]
         if c > 0:
@@ -503,18 +552,14 @@ def fetch_github_activity(username):
             temp_streak += 1
             if temp_streak > longest_streak:
                 longest_streak = temp_streak
-                longest_start = temp_start
-                longest_end = dt
+                longest_start  = temp_start
+                longest_end    = dt
         else:
             temp_streak = 0
-            temp_start = None
+            temp_start  = None
 
-    # Current streak calculation
     today_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    curr = 0
-    curr_start = None
-    curr_end = None
-
+    curr, curr_start, curr_end = 0, None, None
     for dt in reversed(sorted_dates):
         if daily_counts[dt] > 0:
             if curr == 0:
@@ -527,68 +572,62 @@ def fetch_github_activity(username):
             else:
                 break
 
-    def fmt_date(d_str):
-        if not d_str:
+    def fmt_date(d):
+        if not d:
             return ""
-        dt_obj = datetime.datetime.strptime(d_str, "%Y-%m-%d")
-        return dt_obj.strftime("%b %d")
+        return datetime.datetime.strptime(d, "%Y-%m-%d").strftime("%b %d")
 
-    def fmt_range(s_str, e_str):
-        if not s_str or not e_str:
+    def fmt_range(s, e):
+        if not s or not e:
             return ""
-        s_obj = datetime.datetime.strptime(s_str, "%Y-%m-%d")
-        e_obj = datetime.datetime.strptime(e_str, "%Y-%m-%d")
-        if s_str == e_str:
-            return s_obj.strftime("%b %d")
-        elif s_obj.month == e_obj.month:
-            return f"{s_obj.strftime('%b %d')} - {e_obj.strftime('%d')}"
+        so = datetime.datetime.strptime(s, "%Y-%m-%d")
+        eo = datetime.datetime.strptime(e, "%Y-%m-%d")
+        if s == e:
+            return so.strftime("%b %d")
+        elif so.month == eo.month:
+            return f"{so.strftime('%b %d')} - {eo.strftime('%d')}"
         else:
-            return f"{s_obj.strftime('%b %d')} - {e_obj.strftime('%b %d')}"
+            return f"{so.strftime('%b %d')} - {eo.strftime('%b %d')}"
 
-    date_range_str = f"{fmt_date(sorted_dates[0])}, {sorted_dates[0][:4]} – {fmt_date(sorted_dates[-1])}, {sorted_dates[-1][:4]}" if sorted_dates else ""
-    curr_streak_dates = fmt_range(curr_start, curr_end) if curr > 0 else "Recent"
-    longest_streak_dates = fmt_range(longest_start, longest_end) if longest_streak > 0 else "Recent"
+    date_range_str = (
+        f"{fmt_date(sorted_dates[0])}, {sorted_dates[0][:4]} – "
+        f"{fmt_date(sorted_dates[-1])}, {sorted_dates[-1][:4]}"
+        if sorted_dates else ""
+    )
+    curr_streak_dates    = fmt_range(curr_start, curr_end) if curr > 0 else "Recent"
+    longest_streak_dates = fmt_range(longest_start, longest_end) if longest_streak > 0 else "—"
 
-    # Build Heatmap SVG Rectangles (52 weeks x 7 days)
+    # Heatmap rectangles
     rects_svg = []
     if sorted_dates:
-        start_dt = datetime.datetime.strptime(sorted_dates[0], "%Y-%m-%d")
-        start_wday = start_dt.weekday()
-        week_idx = 0
-        day_idx = (start_wday + 1) % 7
+        start_dt   = datetime.datetime.strptime(sorted_dates[0], "%Y-%m-%d")
+        week_idx   = 0
+        day_idx    = (start_dt.weekday() + 1) % 7
 
         for dt_str in sorted_dates:
             cnt = daily_counts[dt_str]
-            if cnt == 0:
-                fill = "#161b22"
-            elif cnt == 1:
-                fill = "#0e4429"
-            elif cnt <= 3:
-                fill = "#006d32"
-            elif cnt <= 7:
-                fill = "#26a641"
-            else:
-                fill = "#39d353"
-
-            x_pos = week_idx * 8.2
-            y_pos = day_idx * 8.2
-            rects_svg.append(f'<rect x="{x_pos:.1f}" y="{y_pos:.1f}" width="6.5" height="6.5" rx="1.5" fill="{fill}" />')
-
+            if   cnt == 0: fill = "#161b22"
+            elif cnt == 1: fill = "#0e4429"
+            elif cnt <= 3: fill = "#006d32"
+            elif cnt <= 7: fill = "#26a641"
+            else:          fill = "#39d353"
+            x = week_idx * 8.2
+            y = day_idx  * 8.2
+            rects_svg.append(
+                f'<rect x="{x:.1f}" y="{y:.1f}" width="6.5" height="6.5" rx="1.5" fill="{fill}" />')
             day_idx += 1
             if day_idx == 7:
-                day_idx = 0
+                day_idx  = 0
                 week_idx += 1
 
-    heatmap_svg = "".join(rects_svg)
-
     return {
-        "total_contributions": total_contribs,
-        "current_streak": curr,
+        "total_contributions":  total_contribs,
+        "current_streak":       curr,
         "current_streak_dates": curr_streak_dates,
-        "longest_streak": longest_streak,
+        "longest_streak":       longest_streak,
         "longest_streak_dates": longest_streak_dates,
-        "date_range": date_range_str,
-        "heatmap_svg": heatmap_svg,
+        "date_range":           date_range_str,
+        "heatmap_svg":          "".join(rects_svg),
     }
 
 def generate_github_svg(act, gh_stats):

@@ -2,8 +2,10 @@ name: Sync LeetCode & GitHub Statistics
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # every 6 hours
-  workflow_dispatch:          # manual trigger
+    - cron: '*/30 * * * *'    # every 30 minutes — near-real-time sync
+  workflow_dispatch:            # manual trigger from GitHub Actions UI
+  repository_dispatch:          # triggered by other repos (via API call)
+    types: [contribution-made]
   push:
     branches:
       - main
@@ -22,7 +24,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0          # full history needed for safe rebase
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,6 +32,8 @@ jobs:
           python-version: '3.11'
 
       - name: Fetch and Sync LeetCode & GitHub Statistics
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/update_leetcode.py
 
       - name: Commit and Push Changes if Updated
@@ -39,7 +43,6 @@ jobs:
           git add assets/leetcode_stats.svg assets/github_stats.svg README.md
           if ! git diff --staged --quiet; then
             git commit -m "auto: sync LeetCode & GitHub statistics [skip ci]"
-            # Pull with rebase so our commit sits on top of any concurrent push
             git pull --rebase origin main
             git push origin main
           else
