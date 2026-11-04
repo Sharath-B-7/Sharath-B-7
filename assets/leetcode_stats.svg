@@ -139,7 +139,7 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">501</div>
+              <div class="total-num">502</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>192</strong> / 2,139</span>
+                <span><strong>193</strong> / 2,139</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -179,7 +179,7 @@
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">217,474</span>
+                <span class="metric-val">217,591</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>
