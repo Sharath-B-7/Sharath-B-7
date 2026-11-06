@@ -69,7 +69,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 ## 🏆 Honors & Achievements
 
-* 🧠 **Competitive Programming:** Solved **503 LeetCode Problems** across C++, Python3, and Python.
+* 🧠 **Competitive Programming:** Solved **504 LeetCode Problems** across C++, Python3, and Python.
 * 🎓 **Academic Excellence:** Current CGPA — **8.5 / 10.0**
 * 📚 **School Board Examinations:** Class 12 — **97%** | Class 10 — **98%**
 
@@ -112,7 +112,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 🧠 LeetCode & Competitive Programming
 
 <p align="center">
-  <img src="./assets/leetcode_stats.svg?v=1793966230" alt="Sharath B LeetCode Statistics" width="100%" />
+  <img src="./assets/leetcode_stats.svg?v=1793992547" alt="Sharath B LeetCode Statistics" width="100%" />
 </p>
 
 <p align="center">
@@ -127,15 +127,15 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 | :--- | :---: | :--- |
 | 🏆 **Global Rank** | **215,894** | Top **10.78%** worldwide |
 | 📈 **Contest Rating** | **1,752** | **48** Contests Attended |
-| 💻 **Total Problems Solved** | **503 / 4,101** | 🟢 **294** Easy \| 🟡 **194** Medium \| 🔴 **15** Hard |
-| 🏅 **Badges** | **2 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
+| 💻 **Total Problems Solved** | **504 / 4,101** | 🟢 **294** Easy \| 🟡 **195** Medium \| 🔴 **15** Hard |
+| 🏅 **Badges** | **3 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
 
 ## 📊 GitHub Activity & Analytics
 
 <p align="center">
-  <img src="./assets/github_stats.svg?v=1793966230" alt="Sharath B GitHub Activity & Analytics" width="100%" />
+  <img src="./assets/github_stats.svg?v=1793992547" alt="Sharath B GitHub Activity & Analytics" width="100%" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
