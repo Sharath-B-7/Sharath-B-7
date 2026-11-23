@@ -84,8 +84,8 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 33.0%; background: #2ecc71; height: 100%; }
-        .progress-fill-medium { width: 10.4%; background: #f1c40f; height: 100%; }
+        .progress-fill-easy { width: 33.2%; background: #2ecc71; height: 100%; }
+        .progress-fill-medium { width: 10.6%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.5%; background: #e74c3c; height: 100%; }
 
         .total-solved {
@@ -139,14 +139,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">561</div>
+              <div class="total-num">568</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>323</strong> / 978</span>
+                <span><strong>325</strong> / 978</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
@@ -154,7 +154,7 @@
 
               <div class="diff-row">
                 <span class="diff-medium">🟡 Medium</span>
-                <span><strong>223</strong> / 2,152</span>
+                <span><strong>228</strong> / 2,152</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-medium"></div>
@@ -179,7 +179,7 @@
               </div>
               <div class="metric-row">
                 <span class="metric-label">🏆 Global Rank</span>
-                <span class="metric-val">172,813</span>
+                <span class="metric-val">167,614</span>
               </div>
               <div class="metric-row">
                 <span class="metric-label">🎯 Top Percentile</span>
