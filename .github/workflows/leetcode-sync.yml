@@ -2,7 +2,7 @@ name: Sync LeetCode & GitHub Statistics
 
 on:
   schedule:
-    - cron: '*/30 * * * *'    # every 30 minutes — near-real-time sync
+    - cron: '13,43 * * * *'   # every 30 minutes (off-peak to avoid shared API spikes)
   workflow_dispatch:            # manual trigger from GitHub Actions UI
   repository_dispatch:          # triggered by other repos (via API call)
     types: [contribution-made]
@@ -13,6 +13,10 @@ on:
       - 'assets/leetcode_stats.svg'
       - 'assets/github_stats.svg'
       - 'README.md'
+
+concurrency:
+  group: sync-stats
+  cancel-in-progress: false
 
 jobs:
   update-stats:
