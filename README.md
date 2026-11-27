@@ -69,7 +69,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 ## 🏆 Honors & Achievements
 
-* 🧠 **Competitive Programming:** Solved **575 LeetCode Problems** across C++, Python3, and Python.
+* 🧠 **Competitive Programming:** Solved **577 LeetCode Problems** across C++, Python3, and Python.
 * 🎓 **Academic Excellence:** Current CGPA — **8.5 / 10.0**
 * 📚 **School Board Examinations:** Class 12 — **97%** | Class 10 — **98%**
 
@@ -112,7 +112,7 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 ## 🧠 LeetCode & Competitive Programming
 
 <p align="center">
-  <img src="./assets/leetcode_stats.svg?v=1795690249" alt="Sharath B LeetCode Statistics" width="100%" />
+  <img src="./assets/leetcode_stats.svg?v=1795781476" alt="Sharath B LeetCode Statistics" width="100%" />
 </p>
 
 <p align="center">
@@ -125,9 +125,9 @@ With a strong foundation in Data Structures and Algorithms, I continuously hone 
 
 | Metric | Verified Current Figure | Detail Breakdown |
 | :--- | :---: | :--- |
-| 🏆 **Global Rank** | **163,308** | Top **5.49%** worldwide |
+| 🏆 **Global Rank** | **162,772** | Top **5.49%** worldwide |
 | 📈 **Contest Rating** | **1,877** | **53** Contests Attended |
-| 💻 **Total Problems Solved** | **575 / 4,124** | 🟢 **329** Easy \| 🟡 **231** Medium \| 🔴 **15** Hard |
+| 💻 **Total Problems Solved** | **577 / 4,124** | 🟢 **329** Easy \| 🟡 **233** Medium \| 🔴 **15** Hard |
 | 🏅 **Badges** | **4 Badges** | Profile: [@Sharathbcs](https://leetcode.com/u/Sharathbcs/) |
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-db036000-a425-11eb-923f-72364028cd76.gif" width="100%" height="2px" />
