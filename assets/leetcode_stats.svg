@@ -91,7 +91,7 @@
           overflow: hidden;
         }
 
-        .progress-fill-easy { width: 34.6%; background: #2ecc71; height: 100%; }
+        .progress-fill-easy { width: 34.8%; background: #2ecc71; height: 100%; }
         .progress-fill-medium { width: 10.9%; background: #f1c40f; height: 100%; }
         .progress-fill-hard { width: 1.5%; background: #e74c3c; height: 100%; }
 
@@ -147,14 +147,14 @@
           <!-- Col 1: Solved & Difficulty -->
           <div class="lc-col">
             <div class="total-solved">
-              <div class="total-num">588</div>
+              <div class="total-num">590</div>
               <div class="total-label">Problems Solved</div>
             </div>
 
             <div class="stat-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
               <div class="diff-row">
                 <span class="diff-easy">🟢 Easy</span>
-                <span><strong>338</strong> / 978</span>
+                <span><strong>340</strong> / 978</span>
               </div>
               <div class="progress-bar" style="margin-bottom: 10px;">
                 <div class="progress-fill-easy"></div>
